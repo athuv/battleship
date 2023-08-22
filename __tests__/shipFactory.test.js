@@ -1,4 +1,4 @@
-import {ship} from '../src/js/ship';
+import {ship} from '../src/js/shipFactory';
 
 describe('Ship factory functions', () => {
   test('carrier function - return carrier ship object', () => {
