@@ -1,3 +1,5 @@
+import { SHIP_ABBREVIATIONS } from './config';
+
 function ship() {
 
   function createShip(size, type) {
@@ -14,27 +16,27 @@ function ship() {
   }
 
   function carrier() {
-    const carrier = createShip(5, 'CA');
+    const carrier = createShip(5, SHIP_ABBREVIATIONS.CARRIER);
     return carrier;
   }
 
   function battleship() {
-    const battleShip = createShip(4, 'B');
+    const battleShip = createShip(4, SHIP_ABBREVIATIONS.BATTLESHIP);
     return battleShip;
   }
 
   function cruiser() {
-    const cruiser = createShip(3, 'CR');
+    const cruiser = createShip(3, SHIP_ABBREVIATIONS.CRUISER);
     return cruiser;
   }
 
   function submarine() {
-    const submarine = createShip(3, 'S');
+    const submarine = createShip(3, SHIP_ABBREVIATIONS.SUBMARINE);
     return submarine;
   }
 
   function patrolBoat() {
-    const patrolBoat = createShip(2, 'P');
+    const patrolBoat = createShip(2, SHIP_ABBREVIATIONS.PATROL_BOAT);
     return patrolBoat;
   }
 
