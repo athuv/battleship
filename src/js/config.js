@@ -9,6 +9,11 @@ const CELL_STATES = {
   MISS: 'Miss'
 };
 
+const AXIS = {
+  X: 'x',
+  Y: 'y'
+}
+
 const SHIPS = {
   CARRIER_SHIP: 'carrier',
   BATTLE_SHIP: 'battleship',
@@ -35,5 +40,6 @@ export {
   CELL_STATES,
   SHIPS,
   ERROR_MESSAGES,
-  SHIP_ABBREVIATIONS
+  SHIP_ABBREVIATIONS,
+  AXIS
 }
