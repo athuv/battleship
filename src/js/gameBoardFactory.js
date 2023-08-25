@@ -29,8 +29,14 @@ function gameBoard() {
           for (let offset = -1; offset <= 2; offset++) {
             BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
           } 
-        }else if([SHIPS.CRUISER_SHIP, SHIPS.CRUISER_SHIP].includes(shipType)) {
-
+        }else if([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType)) {
+          for (let offset = -1; offset <= 1; offset++) {
+            BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
+          } 
+        }else if(shipType === SHIPS.PATROL_BOAT_SHIP) {
+          for (let offset = 0; offset <= 1; offset++) {
+            BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
+          } 
         }
         return true;
       }
@@ -62,8 +68,18 @@ function gameBoard() {
         }
         return true;
       }else if(([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType))  && (position[1] >= 1) && (position[1] <= 8)) {
-
-      } else if((shipType === SHIPS.PATROL_BOAT_SHIP) && (position[1] >= 0) && (position[1] <= 9)) {
+        for (let offset = -1; offset <= 1; offset++) {
+          if(BOARD[position[0]][position[1] + offset] !== CELL_STATES.EMPTY) {
+            return false;
+          }
+        }
+        return true;
+      } else if((shipType === SHIPS.PATROL_BOAT_SHIP) && (position[1] >= 0) && (position[1] <= 8)) {
+        for (let offset = 0; offset <= 1; offset++) {
+          if(BOARD[position[0]][position[1] + offset] !== CELL_STATES.EMPTY) {
+            return false;
+          }
+        }
         return true;
       }
     }else {
