@@ -1,5 +1,5 @@
 import { ship } from './shipFactory';
-import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS } from './config';
+import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS } from './config';
 
 function gameBoard() {
     
@@ -20,7 +20,7 @@ function gameBoard() {
 
   function placeShip(shipType, position, axis) {
     if(canPlaceShip(shipType, position, axis)) {
-      if(axis === 'x') {
+      if(axis === AXIS.X) {
         if(shipType === SHIPS.CARRIER_SHIP) {
           for (let offset = -2; offset <= 2; offset++) {
             BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
@@ -39,6 +39,25 @@ function gameBoard() {
           } 
         }
         return true;
+      }else {
+        if(shipType === SHIPS.CARRIER_SHIP) {
+          for (let offset = -2; offset <= 2; offset++) {
+            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+          }          
+        }else if(shipType === SHIPS.BATTLE_SHIP) {
+          for (let offset = -1; offset <= 2; offset++) {
+            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+          } 
+        }else if([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType)) {
+          for (let offset = -1; offset <= 1; offset++) {
+            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+          } 
+        }else if(shipType === SHIPS.PATROL_BOAT_SHIP) {
+          for (let offset = 0; offset <= 1; offset++) {
+            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+          } 
+        }
+        return true;
       }
     }
 
@@ -50,7 +69,7 @@ function gameBoard() {
 
     if(getShip(shipType) === false) return false;
 
-    if(axis === 'x') {
+    if(axis === AXIS.X) {
       if((shipType === SHIPS.CARRIER_SHIP) && (position[1] >= 2) && (position[1] <= 7)) {
         // Checking for collision
         for (let offset = -2; offset <= 2; offset++) {
@@ -83,11 +102,35 @@ function gameBoard() {
         return true;
       }
     }else {
-      if((shipType === SHIPS.CARRIER_SHIP) && (position[0] >= 2) && (position[0] <= 7)) {        
+      if((shipType === SHIPS.CARRIER_SHIP) && (position[0] >= 2) && (position[0] <= 7)) {
+        // Checking for collision
+        for (let offset = -2; offset <= 2; offset++) {
+          if(BOARD[position[0] + offset][position[1]] !== CELL_STATES.EMPTY) {
+            return false;
+          }
+        }
         return true;
-      }else if(['battleship', 'cruiser', 'submarine'].includes(shipType)  && (position[0] >= 1) && (position[0] <= 8)) {
+      }else if((shipType === SHIPS.BATTLE_SHIP)  && (position[0] >= 1) && (position[0] <= 7)) {
+        // Checking for collision
+        for (let offset = -1; offset <= 2; offset++) {
+          if(BOARD[position[0] + offset][position[1]] !== CELL_STATES.EMPTY) {
+            return false;
+          }
+        }
         return true;
-      }else if((shipType === 'patrolBoat') && (position[0] >= 0) && (position[0] <= 9)) {
+      }else if(([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType))  && (position[0] >= 1) && (position[0] <= 8)) {
+        for (let offset = -1; offset <= 1; offset++) {
+          if(BOARD[position[0] + offset][position[1]] !== CELL_STATES.EMPTY) {
+            return false;
+          }
+        }
+        return true;
+      } else if((shipType === SHIPS.PATROL_BOAT_SHIP) && (position[1] >= 0) && (position[1] <= 8)) {
+        for (let offset = 0; offset <= 1; offset++) {
+          if(BOARD[position[0] + offset][position[1]] !== CELL_STATES.EMPTY) {
+            return false;
+          }
+        }
         return true;
       }
     }
