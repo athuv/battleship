@@ -2,7 +2,10 @@ import { ship } from './shipFactory';
 import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS } from './config';
 
 function gameBoard() {
-    
+
+  // Make sure ships only placed once
+  const placedShips = new Set();  
+
   const BOARD = Array.from({ length: GRID.ROWS }, () =>
     Array.from({ length: GRID.COLUMNS }, () => CELL_STATES.EMPTY)
   );
@@ -38,7 +41,6 @@ function gameBoard() {
             BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
           } 
         }
-        return true;
       }else {
         if(shipType === SHIPS.CARRIER_SHIP) {
           for (let offset = -2; offset <= 2; offset++) {
@@ -57,8 +59,9 @@ function gameBoard() {
             BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
           } 
         }
-        return true;
       }
+      placedShips.add(shipType);
+      return true;
     }
 
     return ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED;
@@ -68,6 +71,7 @@ function gameBoard() {
   function canPlaceShip(shipType, position, axis) {
 
     if(getShip(shipType) === false) return false;
+    if(placedShips.has(shipType)) return false;
 
     if(axis === AXIS.X) {
       if((shipType === SHIPS.CARRIER_SHIP) && (position[1] >= 2) && (position[1] <= 7)) {
