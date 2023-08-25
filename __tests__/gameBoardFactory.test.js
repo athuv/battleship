@@ -298,13 +298,21 @@ describe('Ship placement collisions Y axis', () => {
     expect(board.placeShip(SHIPS.CRUISER_SHIP, [3, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.CRUISER_SHIP, [5, 1], AXIS.Y);
-  test('placing cruiser ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.CRUISER_SHIP, [5, 2], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+  board.placeShip(SHIPS.SUBMARINE_SHIP, [5, 1], AXIS.Y);
+  test('placing submarine ship above previously placed ship', () => {
+    expect(board.placeShip(SHIPS.SUBMARINE_SHIP, [6, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.SUBMARINE_SHIP, [6, 1], AXIS.Y);
-  test('placing cruiser ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.SUBMARINE_SHIP, [6, 2], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+  board.placeShip(SHIPS.PATROL_BOAT_SHIP, [6, 1], AXIS.Y);
+  test('placing cruiser patrol boat above previously placed ship', () => {
+    expect(board.placeShip(SHIPS.PATROL_BOAT_SHIP, [5, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+  });
+});
+
+describe('Placing same boat more than once', () => {
+  const board = gameBoard();
+  board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+  test('Placing carrier boat twice', () => {
+    expect(board.placeShip(SHIPS.CARRIER_SHIP, [9, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 });
