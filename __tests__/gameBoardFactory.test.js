@@ -1,5 +1,6 @@
 import { gameBoard } from '../src/js/gameBoardFactory';
-import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS } from '../src/js/config';
+import { ship } from '../src/js/shipFactory';
+import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, MESSAGES } from '../src/js/config';
 
 describe('Initializing 10x10 Board', () => {
   const board = gameBoard();
@@ -330,5 +331,114 @@ describe('Placing same boat more than once', () => {
   board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
   test('Placing carrier boat twice', () => {
     expect(board.placeShip(SHIPS.CARRIER_SHIP, [9, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+  });
+});
+
+describe('Receiving attacks', () => {
+  const board = gameBoard();
+
+  test('Attacking on empty cell', () => {
+    board.receiveAttack(1, 3);
+    expect(board.getBoard(1, 3)).toBe(CELL_STATES.MISS);
+  });
+
+  test('Attacking on already hit cell', () => {
+    board.receiveAttack(1, 3)
+    expect(board.receiveAttack(1, 3)).toBe(ERROR_MESSAGES.ALREADY_HIT);
+  });
+
+
+  test('Attacking on carrier ship', () => {    
+    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+    // board.receiveAttack(1, 4);
+    board.receiveAttack(0, 4);
+    expect(board.receiveAttack(1, 4).life).toBe(5 - 2);
+    expect(board.receiveAttack(2, 4).life).toBe(5 - 3);
+    expect(board.receiveAttack(3, 4).life).toBe(5 - 4);
+    expect(board.receiveAttack(4, 4).life).toBe(5 - 5);
+
+    expect(board.receiveAttack(9, 4)).toBe(ERROR_MESSAGES.ALREADY_HIT);
+    expect(board.getBoard(9, 4)).toBe(CELL_STATES.MISS);
+  });
+
+  test('Attacking on battle ship', () => {    
+    board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
+
+    board.receiveAttack(5, 1);
+    expect(board.receiveAttack(5, 2).life).toBe(4 - 2);
+    expect(board.receiveAttack(5, 3).life).toBe(4 - 3);
+    expect(board.receiveAttack(5, 4).life).toBe(4 - 4);
+
+    expect(board.receiveAttack(9, 4)).toBe(ERROR_MESSAGES.ALREADY_HIT);
+    expect(board.getBoard(9, 4)).toBe(CELL_STATES.MISS);
+  });
+
+  test('Attacking on cruiser ship', () => {    
+    board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
+
+    board.receiveAttack(7, 2);
+    expect(board.receiveAttack(8, 2).life).toBe(3 - 2);
+    expect(board.receiveAttack(9, 2).life).toBe(3 - 3);
+
+    expect(board.receiveAttack(9, 4)).toBe(ERROR_MESSAGES.ALREADY_HIT);
+    expect(board.getBoard(9, 4)).toBe(CELL_STATES.MISS);
+  });
+
+  test('Attacking on submarine ship', () => {    
+    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
+
+    board.receiveAttack(7, 1);
+    expect(board.receiveAttack(8, 1).life).toBe(3 - 2);
+    expect(board.receiveAttack(9, 1).life).toBe(3 - 3);
+
+    expect(board.receiveAttack(9, 4)).toBe(ERROR_MESSAGES.ALREADY_HIT);
+    expect(board.getBoard(9, 4)).toBe(CELL_STATES.MISS);
+  });
+
+  test('Attacking on patrol boat', () => {    
+    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+
+    board.receiveAttack(8, 0);
+    expect(board.receiveAttack(9, 0).life).toBe(2 - 2);
+    expect(board.isGameOver()).toBe(true);
+  });
+});
+
+describe('Is game over', () => {
+  const board = gameBoard();
+
+  test('Is game over - true or false', () => {
+    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+    board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
+    board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
+    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
+    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+  
+    expect(board.isGameOver()).toBe(false);
+
+    board.receiveAttack(0, 4);
+    board.receiveAttack(1, 4);
+    board.receiveAttack(2, 4);
+    board.receiveAttack(3, 4);
+    board.receiveAttack(4, 4);
+
+    board.receiveAttack(5, 1);
+    board.receiveAttack(5, 2);
+    board.receiveAttack(5, 3);
+    board.receiveAttack(5, 4);
+
+    board.receiveAttack(7, 2);
+    board.receiveAttack(8, 2);
+    board.receiveAttack(9, 2);
+
+    board.receiveAttack(7, 1);
+    board.receiveAttack(8, 1);
+    board.receiveAttack(9, 1);
+
+    board.receiveAttack(8, 0);
+    board.receiveAttack(9, 0);
+
+    console.log(board.getBoard());
+    expect(board.isGameOver()).toBe(true);
   });
 });
