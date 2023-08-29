@@ -1,8 +1,14 @@
 import { ship } from './shipFactory';
-import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, SHIP_OFFSET_VALUES } from './config';
+import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, SHIP_OFFSET_VALUES, MESSAGES } from './config';
 
 function gameBoard() {
 
+  const shipInstance = ship();
+  const carrierShipInstance = shipInstance.carrier();
+  const battleShipInstance = shipInstance.battleship();
+  const cruiserShipInstance = shipInstance.cruiser();
+  const submarineShipInstance = shipInstance.submarine();
+  const patrolBoatInstance = shipInstance.patrolBoat();
   // Make sure ships only placed once
   const placedShips = new Set();  
 
@@ -22,8 +28,23 @@ function gameBoard() {
     return false;
   }
 
+  function isGameOver() {
+    if((carrierShipInstance.isSunked === true) && (battleShipInstance.isSunked === true) && 
+    (cruiserShipInstance.isSunked === true) && (submarineShipInstance.isSunked === true) && (patrolBoatInstance.isSunked === true)) {
+      return true;
+    }
+
+    return false;
+  }
+
   function isCellEmpty(row, col) {
     if(getBoard(row, col) === CELL_STATES.EMPTY) return true;
+    return false;
+  }
+
+  function updateBoard(row, col, status) {
+    BOARD[row][col] = status;
+    if(getBoard(row, col) === status) return true;
     return false;
   }
 
@@ -89,19 +110,19 @@ function gameBoard() {
       if(axis === AXIS.X) {
         if(shipType === SHIPS.CARRIER_SHIP) {
           for (let offset = -2; offset <= 2; offset++) {
-            BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
+            updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           }          
         }else if(shipType === SHIPS.BATTLE_SHIP) {
           for (let offset = -1; offset <= 2; offset++) {
-            BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
+            updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           } 
         }else if([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType)) {
           for (let offset = -1; offset <= 1; offset++) {
-            BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
+            updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           } 
         }else if(shipType === SHIPS.PATROL_BOAT_SHIP) {
           for (let offset = 0; offset <= 1; offset++) {
-            BOARD[position[0]][position[1] + offset] = getShip(shipType).type;
+            updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           } 
         }
       }
@@ -109,19 +130,19 @@ function gameBoard() {
       if(axis === AXIS.Y) {
         if(shipType === SHIPS.CARRIER_SHIP) {
           for (let offset = -2; offset <= 2; offset++) {
-            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+            updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           }          
         }else if(shipType === SHIPS.BATTLE_SHIP) {
           for (let offset = -1; offset <= 2; offset++) {
-            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+            updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           } 
         }else if([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType)) {
           for (let offset = -1; offset <= 1; offset++) {
-            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+            updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           } 
         }else if(shipType === SHIPS.PATROL_BOAT_SHIP) {
           for (let offset = 0; offset <= 1; offset++) {
-            BOARD[position[0] + offset][position[1]] = getShip(shipType).type;
+            updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           } 
         }
       }
@@ -145,19 +166,52 @@ function gameBoard() {
   }
 
   function receiveAttack(row, col) {
+    if(isGameOver()) return  MESSAGES.GAME_OVER;
+    if(isCellEmpty(row, col)) updateBoard(row, col, CELL_STATES.MISS);
+    if((getBoard(row, col) === CELL_STATES.HIT) || (getBoard(row, col) === CELL_STATES.MISS)) return ERROR_MESSAGES.ALREADY_HIT;
 
+    if(getBoard(row, col) === SHIP_ABBREVIATIONS.CARRIER) {      
+      updateBoard(row, col, CELL_STATES.HIT);      
+      carrierShipInstance.hit();
+      return carrierShipInstance;
+    }
+
+    if(getBoard(row, col) === SHIP_ABBREVIATIONS.BATTLESHIP) {      
+      updateBoard(row, col, CELL_STATES.HIT);      
+      battleShipInstance.hit();
+      return battleShipInstance;
+    }
+
+    if(getBoard(row, col) === SHIP_ABBREVIATIONS.CRUISER) {      
+      updateBoard(row, col, CELL_STATES.HIT);      
+      cruiserShipInstance.hit();
+      return cruiserShipInstance;
+    }
+
+    if(getBoard(row, col) === SHIP_ABBREVIATIONS.SUBMARINE) {      
+      updateBoard(row, col, CELL_STATES.HIT);      
+      submarineShipInstance.hit();
+      return submarineShipInstance;
+    }
+
+    if(getBoard(row, col) === SHIP_ABBREVIATIONS.PATROL_BOAT) {      
+      updateBoard(row, col, CELL_STATES.HIT);      
+      patrolBoatInstance.hit();
+      return patrolBoatInstance;
+    }
   }
 
-
-
-  // Remove getShip, canPlaceShip, isCellEmpty
+  // Remove getShip, canPlaceShip, isCellEmpty, updateBoard
   return {
     getBoard,
     placeShip,
     getShip,
     canPlaceShip,
     isCellEmpty,
-    isCollision
+    isCollision,
+    updateBoard,
+    receiveAttack,
+    isGameOver
   }
 }
 
