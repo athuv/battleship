@@ -32,7 +32,12 @@ const SHIP_ABBREVIATIONS = {
 
 const ERROR_MESSAGES = {
   SHIP_CANNOT_BE_PLACED: 'Ship Cannot Be Placed Here!',
-  SHIP_NOT_FOUND: 'Ship Not Found!'
+  SHIP_NOT_FOUND: 'Ship Not Found!',
+  ALREADY_HIT: 'You cannot hit this cell again because it has already been attacked.'
+};
+
+const MESSAGES = {
+  GAME_OVER: 'Game Over'
 };
 
 const SHIP_OFFSET_VALUES = {
@@ -61,5 +66,6 @@ export {
   ERROR_MESSAGES,
   SHIP_ABBREVIATIONS,
   AXIS,
-  SHIP_OFFSET_VALUES
+  SHIP_OFFSET_VALUES,
+  MESSAGES
 }
