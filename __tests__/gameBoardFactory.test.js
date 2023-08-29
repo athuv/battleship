@@ -2,12 +2,27 @@ import { gameBoard } from '../src/js/gameBoardFactory';
 import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS } from '../src/js/config';
 
 describe('Initializing 10x10 Board', () => {
-  test('Board Columns must be 10', () => {
+  const board = gameBoard();
+
+  test('Board rows must be 10', () => {
     expect(gameBoard().getBoard().length).toBe(GRID.ROWS);
   });
 
-  test('Board 1st Rows must be 10', () => {
+  test('Board 1st columns must be 10', () => {
     expect(gameBoard().getBoard()[0].length).toBe(GRID.COLUMNS);
+  });
+
+  test('Get specific cell status', () => {
+    expect(gameBoard().getBoard(3, 6)).toBe(CELL_STATES.EMPTY);
+  });
+
+  test('Check if cell emty, true', () => {
+    expect(gameBoard().isCellEmpty(3, 6)).toBe(true);
+  });
+
+  board.placeShip(SHIPS.BATTLE_SHIP, [4, 1], AXIS.Y);
+  test('Check if cell emty, false', () => {
+    expect(board.isCellEmpty(4, 1)).toBe(false);
   });
 
   test('Board 5th Rows must be 10', () => {
@@ -38,6 +53,7 @@ describe('Get Ships in gameBoardFactory', () => {
 });
 
 describe('Checking whether ship can be placed on X axis', () => {
+  
   test('Checking ship name rather than 5 ships', () => {
     expect(gameBoard().canPlaceShip('cargo', [0,2], AXIS.X)).toBe(false);
   });
