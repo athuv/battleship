@@ -35,11 +35,31 @@ const ERROR_MESSAGES = {
   SHIP_NOT_FOUND: 'Ship Not Found!'
 };
 
+const SHIP_OFFSET_VALUES = {
+  CARRIER: {
+    MIN_OFFSET: -2,
+    MAX_OFFSET: 2
+  },
+  BATTLESHIP: {
+    MIN_OFFSET: -1,
+    MAX_OFFSET: 2
+  },
+  CRUISER_SUBMARINE: {
+    MIN_OFFSET: -1,
+    MAX_OFFSET: 1
+  },
+  PATROL_BOAT: {
+    MIN_OFFSET: 0,
+    MAX_OFFSET: 1
+  }
+};
+
 export {
   GRID,
   CELL_STATES,
   SHIPS,
   ERROR_MESSAGES,
   SHIP_ABBREVIATIONS,
-  AXIS
+  AXIS,
+  SHIP_OFFSET_VALUES
 }
