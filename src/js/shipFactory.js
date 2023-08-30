@@ -1,4 +1,4 @@
-import { SHIP_ABBREVIATIONS } from './config';
+import { SHIP_ABBREVIATIONS } from './config.js';
 
 function ship() {
 

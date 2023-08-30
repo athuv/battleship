@@ -1,6 +1,6 @@
-import gameBoard from '../src/js/gameBoardFactory';
-import ship from '../src/js/shipFactory';
-import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, MESSAGES } from '../src/js/config';
+import gameBoard from '../src/js/gameBoardFactory.js';
+import ship from '../src/js/shipFactory.js';
+import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, MESSAGES } from '../src/js/config.js';
 
 describe('Initializing 10x10 Board', () => {
   const board = gameBoard();

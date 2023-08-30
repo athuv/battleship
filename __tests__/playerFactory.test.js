@@ -1,4 +1,4 @@
-import player from "../src/js/playerFactory";
+import player from "../src/js/playerFactory.js";
 
 const playerOneName = 'John';
 const playerTwoName = 'Kevin';
