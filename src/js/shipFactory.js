@@ -50,6 +50,4 @@ function ship() {
 
 }
 
-export {
-  ship
-}
+export default ship;

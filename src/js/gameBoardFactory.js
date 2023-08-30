@@ -1,4 +1,4 @@
-import { ship } from './shipFactory';
+import ship from './shipFactory';
 import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, SHIP_OFFSET_VALUES, MESSAGES } from './config';
 
 function gameBoard() {
