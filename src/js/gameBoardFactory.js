@@ -215,6 +215,4 @@ function gameBoard() {
   }
 }
 
-export {
-  gameBoard
-}
+export default gameBoard;
