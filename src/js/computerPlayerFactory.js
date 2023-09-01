@@ -31,11 +31,14 @@ function computerPlayer() {
   }
 
   function randomAttack() {
-    const randomIndex = Math.floor(Math.random() * getPossibleAttacks().length);
-    const randomPossibleAttack = getPossibleAttacks()[randomIndex];
-    gameBoardInstance.receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
-    removePossibleAttack(randomIndex);
-    return randomPossibleAttack;
+    if(getPossibleAttacks().length > 0) {
+      const randomIndex = Math.floor(Math.random() * getPossibleAttacks().length);
+      const randomPossibleAttack = getPossibleAttacks()[randomIndex];
+      gameBoardInstance.receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
+      removePossibleAttack(randomIndex);
+      return getPossibleAttacks();
+    }
+    return false;
   }
 
 
