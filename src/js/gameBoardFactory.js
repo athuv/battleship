@@ -28,6 +28,11 @@ function gameBoard() {
     return false;
   }
 
+  function areShipsPlaced() {
+    return (placedShips.size === 5);
+
+  }
+
   function isGameOver() {
     if((carrierShipInstance.isSunked === true) && (battleShipInstance.isSunked === true) && 
     (cruiserShipInstance.isSunked === true) && (submarineShipInstance.isSunked === true) && (patrolBoatInstance.isSunked === true)) {
@@ -211,7 +216,8 @@ function gameBoard() {
     isCollision,
     updateBoard,
     receiveAttack,
-    isGameOver
+    isGameOver,
+    areShipsPlaced
   }
 }
 
