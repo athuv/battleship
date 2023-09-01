@@ -172,8 +172,8 @@ function gameBoard() {
 
   function receiveAttack(row, col) {
     if(isGameOver()) return  MESSAGES.GAME_OVER;
-    if(isCellEmpty(row, col)) updateBoard(row, col, CELL_STATES.MISS);
     if((getBoard(row, col) === CELL_STATES.HIT) || (getBoard(row, col) === CELL_STATES.MISS)) return ERROR_MESSAGES.ALREADY_HIT;
+    if(isCellEmpty(row, col)) updateBoard(row, col, CELL_STATES.MISS);
 
     if(getBoard(row, col) === SHIP_ABBREVIATIONS.CARRIER) {      
       updateBoard(row, col, CELL_STATES.HIT);      
