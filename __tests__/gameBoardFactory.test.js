@@ -442,3 +442,27 @@ describe('Is game over', () => {
     expect(board.isGameOver()).toBe(true);
   });
 });
+
+describe('Are all 5 ships placed?', () => {
+  const board = gameBoard();
+
+  test('5 ships not placed', () => {
+    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+    // board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
+    // board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
+    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
+    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+
+    expect(board.areShipsPlaced()).toBe(false);
+  });
+
+  test('All 5 ships are placed', () => {
+    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+    board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
+    board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
+    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
+    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+
+    expect(board.areShipsPlaced()).toBe(true);   
+  });
+});
