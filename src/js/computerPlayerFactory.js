@@ -6,6 +6,7 @@ function computerPlayer() {
   let gameBoardInstance;
   let playerOneGameBoardInstance;
   const possibleAttacks = [];
+  const queue = [];
   
   function setGameBoardInstance() {
     if(!gameBoardInstance) gameBoardInstance = gameBoard();
@@ -34,7 +35,7 @@ function computerPlayer() {
     if(possibleAttacks.length === 0){
       getPlayerOneGameBoardInstance().getBoard().forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
-          if(cell === CELL_STATES.EMPTY) possibleAttacks.push([rowIndex, colIndex])
+          if(cell !== CELL_STATES.MISS && cell !== CELL_STATES.HIT) possibleAttacks.push([rowIndex, colIndex]);
         });
       });
     }
@@ -49,11 +50,36 @@ function computerPlayer() {
     if(getPossibleAttacks().length > 0) {
       const randomIndex = Math.floor(Math.random() * getPossibleAttacks().length);
       const randomPossibleAttack = getPossibleAttacks()[randomIndex];
-      getPlayerOneGameBoardInstance().receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
+      const attackResult = getPlayerOneGameBoardInstance().receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
       removePossibleAttack(randomIndex);
-      return getPossibleAttacks();
+      return {attackResult, randomPossibleAttack};
     }
     return false;
+  }
+
+  function attack() {
+    
+    let above;
+    let below;
+    let left;
+    let right;
+    let a;
+
+    if(queue.length === 0) {
+      const {attackResult, randomPossibleAttack} = randomAttack();
+      a = randomPossibleAttack;
+      if(attackResult === CELL_STATES.HIT) {
+        above = [randomPossibleAttack[0] - 1, randomPossibleAttack[1]];
+        below = [randomPossibleAttack[0] + 1, randomPossibleAttack[1]];
+        left = [randomPossibleAttack[0], randomPossibleAttack[1] - 1];
+        right = [randomPossibleAttack[0], randomPossibleAttack[1] + 1];
+
+        queue.push(above, below, left, right);
+      }      
+       return {ab:'here', a};
+    }
+   const possibleHit = queue.shift();
+   return {queue, a, possibleHit};
   }
 
   function getRandomCoordInRange(min, max) {
@@ -91,9 +117,6 @@ function computerPlayer() {
 
   }
 
-
-
-
   // remove  possibleAttacks, generatePossibleAttacks, getPlayerOneGameBoardInstance, getRandomCoordInRange, getGameBoardInstance
   return {
     getBoard,
@@ -103,7 +126,9 @@ function computerPlayer() {
     getPlayerOneGameBoardInstance,
     placeComputerShips,
     getRandomCoordInRange,
-    getGameBoardInstance
+    getGameBoardInstance,
+    possibleAttacks,
+    attack
   }
 }
 
