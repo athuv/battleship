@@ -14,21 +14,48 @@ const AXIS = {
   Y: 'y'
 }
 
-const SHIPS = {
-  CARRIER_SHIP: 'carrier',
-  BATTLE_SHIP: 'battleship',
-  CRUISER_SHIP: 'cruiser',
-  SUBMARINE_SHIP: 'submarine',
-  PATROL_BOAT_SHIP: 'patrolBoat'
+const SHIP = {
+  CARRIER: {
+    NAME: 'carrier',
+    ABBREVIATION: 'CA',
+    MIN_OFFSET: -2,
+    MAX_OFFSET: 2,
+    MIN_RANGE: 2,
+    MAX_RANGE: 7 
+  },
+  BATTLESHIP: {
+    NAME: 'battleship',
+    ABBREVIATION: 'B',
+    MIN_OFFSET: -1,
+    MAX_OFFSET: 2,
+    MIN_RANGE: 1,
+    MAX_RANGE: 7 
+  },  
+  CRUISER: {
+    NAME: 'cruiser',
+    ABBREVIATION: 'CR',
+    MIN_OFFSET: -1,
+    MAX_OFFSET: 1,
+    MIN_RANGE: 1,
+    MAX_RANGE: 8 
+  },
+  SUBMARINE: {
+    NAME: 'submarine',
+    ABBREVIATION: 'S',
+    MIN_OFFSET: -1,
+    MAX_OFFSET: 1,
+    MIN_RANGE: 1,
+    MAX_RANGE: 8 
+  }, 
+  PATROLBOAT: {
+    NAME: 'patrolboat',
+    ABBREVIATION: 'P',
+    MIN_OFFSET: 0,
+    MAX_OFFSET: 1,
+    MIN_RANGE: 0,
+    MAX_RANGE: 8 
+  }, 
 }
-
-const SHIP_ABBREVIATIONS = {
-  CARRIER: 'CA',
-  BATTLESHIP: 'B',
-  CRUISER: 'CR',
-  SUBMARINE: 'S',
-  PATROL_BOAT: 'P'
-};
 
 const ERROR_MESSAGES = {
   SHIP_CANNOT_BE_PLACED: 'Ship Cannot Be Placed Here!',
@@ -41,52 +68,13 @@ const MESSAGES = {
   ALREADY_PLACED: 'Ships are already placed'
 };
 
-const SHIP_OFFSET_VALUES = {
-  CARRIER: {
-    MIN_OFFSET: -2,
-    MAX_OFFSET: 2
-  },
-  BATTLESHIP: {
-    MIN_OFFSET: -1,
-    MAX_OFFSET: 2
-  },
-  CRUISER_SUBMARINE: {
-    MIN_OFFSET: -1,
-    MAX_OFFSET: 1
-  },
-  PATROL_BOAT: {
-    MIN_OFFSET: 0,
-    MAX_OFFSET: 1
-  }
-};
 
-const SHIP_RANGE = {
-  CARRIER: {
-    MIN_RANGE: 2,
-    MAX_RANGE: 7
-  },
-  BATTLESHIP: {
-    MIN_RANGE: 1,
-    MAX_RANGE: 7
-  },
-  CRUISER_SUBMARINE: {
-    MIN_RANGE: 1,
-    MAX_RANGE: 8
-  },
-  PATROL_BOAT: {
-    MIN_RANGE: 0,
-    MAX_RANGE: 8
-  }
-}
 
 export {
   GRID,
   CELL_STATES,
-  SHIPS,
+  SHIP,
   ERROR_MESSAGES,
-  SHIP_ABBREVIATIONS,
   AXIS,
-  SHIP_OFFSET_VALUES,
-  MESSAGES,
-  SHIP_RANGE
+  MESSAGES
 }
