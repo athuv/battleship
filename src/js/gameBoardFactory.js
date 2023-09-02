@@ -10,11 +10,19 @@ function gameBoard() {
   const submarineShipInstance = shipInstance.submarine();
   const patrolBoatInstance = shipInstance.patrolBoat();
   // Make sure ships only placed once
-  const placedShips = new Set();  
+  let placedShips = new Set();  
 
-  const BOARD = Array.from({ length: GRID.ROWS }, () =>
+  let BOARD = Array.from({ length: GRID.ROWS }, () =>
     Array.from({ length: GRID.COLUMNS }, () => CELL_STATES.EMPTY)
   );
+
+  function resetBoard() {
+    BOARD.length = 0;
+    BOARD = Array.from({ length: GRID.ROWS }, () =>
+              Array.from({ length: GRID.COLUMNS }, () => CELL_STATES.EMPTY)
+            );
+    placedShips = new Set();
+  }
 
   function getBoard(row, col) {
     if(row !== undefined && col !== undefined) return BOARD[row][col];
@@ -217,7 +225,8 @@ function gameBoard() {
     updateBoard,
     receiveAttack,
     isGameOver,
-    areShipsPlaced
+    areShipsPlaced,
+    resetBoard
   }
 }
 
