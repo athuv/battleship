@@ -1,14 +1,14 @@
-import ship from './shipFactory.js';
-import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, SHIP_OFFSET_VALUES, MESSAGES, SHIP_RANGE } from './config.js';
+import shipFactory from './shipFactory.js';
+import { GRID, CELL_STATES, SHIP, ERROR_MESSAGES, AXIS, MESSAGES } from './config.js';
 
 function gameBoard() {
 
-  const shipInstance = ship();
+  const shipInstance = shipFactory();
   const carrierShipInstance = shipInstance.carrier();
   const battleShipInstance = shipInstance.battleship();
   const cruiserShipInstance = shipInstance.cruiser();
   const submarineShipInstance = shipInstance.submarine();
-  const patrolBoatInstance = shipInstance.patrolBoat();
+  const patrolBoatInstance = shipInstance.patrolboat();
   // Make sure ships only placed once
   let placedShips = new Set();  
 
@@ -30,8 +30,8 @@ function gameBoard() {
   }
 
   function getShip(shipType) {
-    if([SHIPS.CARRIER_SHIP, SHIPS.BATTLE_SHIP, SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP, SHIPS.PATROL_BOAT_SHIP].includes(shipType)){
-      return ship()[shipType]();
+    if([SHIP.CARRIER.NAME, SHIP.BATTLESHIP.NAME, SHIP.CRUISER.NAME, SHIP.SUBMARINE.NAME, SHIP.PATROLBOAT.NAME].includes(shipType)){
+      return shipFactory()[shipType]();
     }
     return false;
   }
@@ -83,17 +83,20 @@ function gameBoard() {
 
   // X axis
   function canPlaceShipHorizontally(shipType, position) {
-    if((shipType === SHIPS.CARRIER_SHIP) && (position[1] >= SHIP_RANGE.CARRIER.MIN_RANGE) && (position[1] <= SHIP_RANGE.CARRIER.MAX_RANGE)) {
-      return isCollision(position, AXIS.X, SHIP_OFFSET_VALUES.CARRIER.MIN_OFFSET, SHIP_OFFSET_VALUES.CARRIER.MAX_OFFSET_OFFSET);
+    if((shipType === SHIP.CARRIER.NAME) && (position[1] >= SHIP.CARRIER.MIN_RANGE) && (position[1] <= SHIP.CARRIER.MAX_RANGE)) {
+      return isCollision(position, AXIS.X, SHIP.CARRIER.MIN_OFFSET, SHIP.CARRIER.MAX_OFFSET);
 
-    }else if((shipType === SHIPS.BATTLE_SHIP)  && (position[1] >= SHIP_RANGE.BATTLESHIP.MIN_RANGE) && (position[1] <= SHIP_RANGE.BATTLESHIP.MAX_RANGE)) {
-      return isCollision(position, AXIS.X, SHIP_OFFSET_VALUES.BATTLESHIP.MIN_OFFSET, SHIP_OFFSET_VALUES.BATTLESHIP.MAX_OFFSET);
+    }else if((shipType === SHIP.BATTLESHIP.NAME)  && (position[1] >= SHIP.BATTLESHIP.MIN_RANGE) && (position[1] <= SHIP.BATTLESHIP.MAX_RANGE)) {
+      return isCollision(position, AXIS.X, SHIP.BATTLESHIP.MIN_OFFSET, SHIP.BATTLESHIP.MAX_OFFSET);
 
-    }else if(([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType))  && (position[1] >= SHIP_RANGE.CRUISER_SUBMARINE.MIN_RANGE) && (position[1] <= SHIP_RANGE.CRUISER_SUBMARINE.MAX_RANGE)) {
-      return isCollision(position, AXIS.X, SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MIN_OFFSET, SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MAX_OFFSET);
+    }else if((shipType === SHIP.CRUISER.NAME)  && (position[1] >= SHIP.CRUISER.MIN_RANGE) && (position[1] <= SHIP.CRUISER.MAX_RANGE)) {
+      return isCollision(position, AXIS.X, SHIP.CRUISER.MIN_OFFSET, SHIP.CRUISER.MAX_OFFSET);
 
-    } else if((shipType === SHIPS.PATROL_BOAT_SHIP) && (position[1] >= SHIP_RANGE.PATROL_BOAT.MIN_RANGE) && (position[1] <= SHIP_RANGE.PATROL_BOAT.MAX_RANGE)) {
-      return isCollision(position, AXIS.X, SHIP_OFFSET_VALUES.PATROL_BOAT.MIN_OFFSET, SHIP_OFFSET_VALUES.PATROL_BOAT.MAX_OFFSET);
+    } else if((shipType === SHIP.SUBMARINE.NAME)  && (position[1] >= SHIP.SUBMARINE.MIN_RANGE) && (position[1] <= SHIP.SUBMARINE.MAX_RANGE)){
+      return isCollision(position, AXIS.X, SHIP.SUBMARINE.MIN_OFFSET, SHIP.SUBMARINE.MAX_OFFSET);
+
+    }else if((shipType === SHIP.PATROLBOAT.NAME)  && (position[1] >= SHIP.PATROLBOAT.MIN_RANGE) && (position[1] <= SHIP.PATROLBOAT.MAX_RANGE)) {
+      return isCollision(position, AXIS.X, SHIP.PATROLBOAT.MIN_OFFSET, SHIP.PATROLBOAT.MAX_OFFSET);
     }
 
     return false;
@@ -101,17 +104,20 @@ function gameBoard() {
 
   // Y axis
   function canPlaceShipVertically(shipType, position) {
-    if((shipType === SHIPS.CARRIER_SHIP) && (position[0] >= SHIP_RANGE.CARRIER.MIN_RANGE) && (position[0] <= SHIP_RANGE.CARRIER.MAX_RANGE)) {
-      return isCollision(position, AXIS.Y, SHIP_OFFSET_VALUES.CARRIER.MIN_OFFSET, SHIP_OFFSET_VALUES.CARRIER.MAX_OFFSET);
+    if((shipType === SHIP.CARRIER.NAME) && (position[0] >= SHIP.CARRIER.MIN_RANGE) && (position[0] <= SHIP.CARRIER.MAX_RANGE)) {
+      return isCollision(position, AXIS.Y, SHIP.CARRIER.MIN_OFFSET, SHIP.CARRIER.MAX_OFFSET);
 
-    }else if((shipType === SHIPS.BATTLE_SHIP)  && (position[0] >= SHIP_RANGE.BATTLESHIP.MIN_RANGE) && (position[0] <= SHIP_RANGE.BATTLESHIP.MAX_RANGE)) {
-      return isCollision(position, AXIS.Y, SHIP_OFFSET_VALUES.BATTLESHIP.MIN_OFFSET, SHIP_OFFSET_VALUES.BATTLESHIP.MAX_OFFSET);
+    }else if((shipType === SHIP.BATTLESHIP.NAME) && (position[0] >= SHIP.BATTLESHIP.MIN_RANGE) && (position[0] <= SHIP.BATTLESHIP.MAX_RANGE)) {
+      return isCollision(position, AXIS.Y, SHIP.BATTLESHIP.MIN_OFFSET, SHIP.BATTLESHIP.MAX_OFFSET);
 
-    }else if(([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType))  && (position[0] >= SHIP_RANGE.CRUISER_SUBMARINE.MIN_RANGE) && (position[0] <= SHIP_RANGE.CRUISER_SUBMARINE.MAX_RANGE)) {
-      return isCollision(position, AXIS.Y, SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MIN_OFFSET, SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MAX_OFFSET);
+    }else if((shipType === SHIP.CRUISER.NAME) && (position[0] >= SHIP.CRUISER.MIN_RANGE) && (position[0] <= SHIP.CRUISER.MAX_RANGE)) {
+      return isCollision(position, AXIS.Y, SHIP.CRUISER.MIN_OFFSET, SHIP.CRUISER.MAX_OFFSET);
 
-    } else if((shipType === SHIPS.PATROL_BOAT_SHIP) && (position[1] >= SHIP_RANGE.PATROL_BOAT.MIN_RANGE) && (position[1] <= SHIP_RANGE.PATROL_BOAT.MAX_RANGE)) {
-      return isCollision(position, AXIS.Y, SHIP_OFFSET_VALUES.PATROL_BOAT.MIN_OFFSET, SHIP_OFFSET_VALUES.PATROL_BOAT.MAX_OFFSET);
+    } else if((shipType === SHIP.SUBMARINE.NAME) && (position[0] >= SHIP.SUBMARINE.MIN_RANGE) && (position[0] <= SHIP.SUBMARINE.MAX_RANGE)) {
+      return isCollision(position, AXIS.Y, SHIP.SUBMARINE.MIN_OFFSET, SHIP.SUBMARINE.MAX_OFFSET);
+
+    }else if((shipType === SHIP.PATROLBOAT.NAME) && (position[0] >= SHIP.PATROLBOAT.MIN_RANGE) && (position[0] <= SHIP.PATROLBOAT.MAX_RANGE)) {
+      return isCollision(position, AXIS.Y, SHIP.PATROLBOAT.MIN_OFFSET, SHIP.PATROLBOAT.MAX_OFFSET);
 
     }
 
@@ -121,40 +127,48 @@ function gameBoard() {
   function placeShip(shipType, position, axis) {
     if(canPlaceShip(shipType, position, axis)) {
       if(axis === AXIS.X) {
-        if(shipType === SHIPS.CARRIER_SHIP) {
-          for (let offset = SHIP_OFFSET_VALUES.CARRIER.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.CARRIER.MAX_OFFSET; offset++) {
+        if(shipType === SHIP.CARRIER.NAME) {
+          for (let offset = SHIP.CARRIER.MIN_OFFSET; offset <= SHIP.CARRIER.MAX_OFFSET; offset++) {
             updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           }          
-        }else if(shipType === SHIPS.BATTLE_SHIP) {
-          for (let offset = SHIP_OFFSET_VALUES.BATTLESHIP.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.BATTLESHIP.MAX_OFFSET; offset++) {
+        }else if(shipType === SHIP.BATTLESHIP.NAME) {
+          for (let offset = SHIP.BATTLESHIP.MIN_OFFSET; offset <= SHIP.BATTLESHIP.MAX_OFFSET; offset++) {
             updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           } 
-        }else if([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType)) {
-          for (let offset = SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MAX_OFFSET; offset++) {
+        }else if(shipType === SHIP.CRUISER.NAME) {
+          for (let offset = SHIP.CRUISER.MIN_OFFSET; offset <= SHIP.CRUISER.MAX_OFFSET; offset++) {
             updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           } 
-        }else if(shipType === SHIPS.PATROL_BOAT_SHIP) {
-          for (let offset = SHIP_OFFSET_VALUES.PATROL_BOAT.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.PATROL_BOAT.MAX_OFFSET; offset++) {
+        }else if(shipType === SHIP.SUBMARINE.NAME){
+          for (let offset = SHIP.SUBMARINE.MIN_OFFSET; offset <= SHIP.SUBMARINE.MAX_OFFSET; offset++) {
+            updateBoard(position[0], position[1] + offset, getShip(shipType).type);
+          } 
+        }else if(shipType === SHIP.PATROLBOAT.NAME) {
+          for (let offset = SHIP.PATROLBOAT.MIN_OFFSET; offset <= SHIP.PATROLBOAT.MAX_OFFSET; offset++) {
             updateBoard(position[0], position[1] + offset, getShip(shipType).type);
           } 
         }
       }
       
       if(axis === AXIS.Y) {
-        if(shipType === SHIPS.CARRIER_SHIP) {
-          for (let offset = SHIP_OFFSET_VALUES.CARRIER.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.CARRIER.MAX_OFFSET; offset++) {
+        if(shipType === SHIP.CARRIER.NAME) {
+          for (let offset = SHIP.CARRIER.MIN_OFFSET; offset <= SHIP.CARRIER.MAX_OFFSET; offset++) {
             updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           }          
-        }else if(shipType === SHIPS.BATTLE_SHIP) {
-          for (let offset = SHIP_OFFSET_VALUES.BATTLESHIP.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.BATTLESHIP.MAX_OFFSET; offset++) {
+        }else if(shipType === SHIP.BATTLESHIP.NAME) {
+          for (let offset = SHIP.BATTLESHIP.MIN_OFFSET; offset <= SHIP.BATTLESHIP.MAX_OFFSET; offset++) {
             updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           } 
-        }else if([SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP].includes(shipType)) {
-          for (let offset = SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.CRUISER_SUBMARINE.MAX_OFFSET; offset++) {
+        }else if(shipType === SHIP.CRUISER.NAME) {
+          for (let offset = SHIP.CRUISER.MIN_OFFSET; offset <= SHIP.CRUISER.MAX_OFFSET; offset++) {
             updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           } 
-        }else if(shipType === SHIPS.PATROL_BOAT_SHIP) {
-          for (let offset = SHIP_OFFSET_VALUES.PATROL_BOAT.MIN_OFFSET; offset <= SHIP_OFFSET_VALUES.PATROL_BOAT.MAX_OFFSET; offset++) {
+        }else if(shipType === SHIP.SUBMARINE.NAME) {
+          for (let offset = SHIP.SUBMARINE.MIN_OFFSET; offset <= SHIP.SUBMARINE.MAX_OFFSET; offset++) {
+            updateBoard(position[0] + offset, position[1], getShip(shipType).type);
+          } 
+        }else if(shipType === SHIP.PATROLBOAT.NAME) {
+          for (let offset = SHIP.PATROLBOAT.MIN_OFFSET; offset <= SHIP.PATROLBOAT.MAX_OFFSET; offset++) {
             updateBoard(position[0] + offset, position[1], getShip(shipType).type);
           } 
         }
@@ -183,31 +197,31 @@ function gameBoard() {
     if((getBoard(row, col) === CELL_STATES.HIT) || (getBoard(row, col) === CELL_STATES.MISS)) return ERROR_MESSAGES.ALREADY_HIT;
     if(isCellEmpty(row, col)) updateBoard(row, col, CELL_STATES.MISS);
 
-    if(getBoard(row, col) === SHIP_ABBREVIATIONS.CARRIER) {      
+    if(getBoard(row, col) === SHIP.CARRIER.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       carrierShipInstance.hit();
       return carrierShipInstance;
     }
 
-    if(getBoard(row, col) === SHIP_ABBREVIATIONS.BATTLESHIP) {      
+    if(getBoard(row, col) === SHIP.BATTLESHIP.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       battleShipInstance.hit();
       return battleShipInstance;
     }
 
-    if(getBoard(row, col) === SHIP_ABBREVIATIONS.CRUISER) {      
+    if(getBoard(row, col) === SHIP.CRUISER.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       cruiserShipInstance.hit();
       return cruiserShipInstance;
     }
 
-    if(getBoard(row, col) === SHIP_ABBREVIATIONS.SUBMARINE) {      
+    if(getBoard(row, col) === SHIP.SUBMARINE.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       submarineShipInstance.hit();
       return submarineShipInstance;
     }
 
-    if(getBoard(row, col) === SHIP_ABBREVIATIONS.PATROL_BOAT) {      
+    if(getBoard(row, col) === SHIP.PATROLBOAT.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       patrolBoatInstance.hit();
       return patrolBoatInstance;

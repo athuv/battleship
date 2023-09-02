@@ -1,5 +1,5 @@
 import gameBoard from "./gameBoardFactory.js";
-import { CELL_STATES, MESSAGES, SHIPS, AXIS, SHIP_RANGE } from "./config.js";
+import { CELL_STATES, MESSAGES, SHIP, AXIS } from "./config.js";
 
 function computerPlayer() {
 
@@ -66,7 +66,7 @@ function computerPlayer() {
   function placeComputerShips() {
     getGameBoardInstance().resetBoard();
     if(getGameBoardInstance().areShipsPlaced() === true) return MESSAGES.ALREADY_PLACED;
-    const ships = [SHIPS.CARRIER_SHIP, SHIPS.BATTLE_SHIP, SHIPS.CRUISER_SHIP, SHIPS.SUBMARINE_SHIP, SHIPS.PATROL_BOAT_SHIP];
+    const ships = [SHIP.CARRIER.NAME, SHIP.BATTLESHIP.NAME, SHIP.CRUISER.NAME, SHIP.SUBMARINE.NAME, SHIP.PATROLBOAT.NAME];
 
     ships.forEach((ship) => {
       let isPlaced = false;
@@ -76,11 +76,11 @@ function computerPlayer() {
         const randomAxis = Math.random() < 0.5 ? AXIS.X : AXIS.Y;
 
         const gameBoardInstance = getGameBoardInstance();
-        if(ship === SHIPS.CARRIER_SHIP) range = getRandomCoordInRange(SHIP_RANGE.CARRIER.MIN_RANGE, SHIP_RANGE.CARRIER.MAX_RANGE);
-        if(ship === SHIPS.BATTLE_SHIP) range = getRandomCoordInRange(SHIP_RANGE.BATTLESHIP.MIN_RANGE, SHIP_RANGE.BATTLESHIP.MAX_RANGE);
-        if(ship === SHIPS.CRUISER_SHIP) range = getRandomCoordInRange(SHIP_RANGE.CRUISER_SUBMARINE.MIN_RANGE, SHIP_RANGE.CRUISER_SUBMARINE.MAX_RANGE);
-        if(ship === SHIPS.SUBMARINE_SHIP) range = getRandomCoordInRange(SHIP_RANGE.CRUISER_SUBMARINE.MIN_RANGE, SHIP_RANGE.CRUISER_SUBMARINE.MAX_RANGE);
-        if(ship === SHIPS.PATROL_BOAT_SHIP) range = getRandomCoordInRange(SHIP_RANGE.PATROL_BOAT.MIN_RANGE, SHIP_RANGE.PATROL_BOAT.MAX_RANGE);
+        if(ship === SHIP.CARRIER.NAME) range = getRandomCoordInRange(SHIP.CARRIER.MIN_RANGE, SHIP.CARRIER.MAX_RANGE);
+        if(ship === SHIP.BATTLESHIP.NAME) range = getRandomCoordInRange(SHIP.BATTLESHIP.MIN_RANGE, SHIP.BATTLESHIP.MAX_RANGE);
+        if(ship === SHIP.CRUISER.NAME) range = getRandomCoordInRange(SHIP.CRUISER.MIN_RANGE, SHIP.CRUISER.MAX_RANGE);
+        if(ship === SHIP.SUBMARINE.NAME) range = getRandomCoordInRange(SHIP.SUBMARINE.MIN_RANGE, SHIP.SUBMARINE.MAX_RANGE);
+        if(ship === SHIP.PATROLBOAT.NAME) range = getRandomCoordInRange(SHIP.PATROLBOAT.MIN_RANGE, SHIP.PATROLBOAT.MAX_RANGE);
         
         const shipPlaced = gameBoardInstance.placeShip(ship, range, randomAxis);
 

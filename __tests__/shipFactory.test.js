@@ -1,24 +1,24 @@
-import ship from '../src/js/shipFactory.js';
+import shipFactory from '../src/js/shipFactory.js';
 
 describe('Ship factory functions', () => {
   test('carrier function - return carrier ship object', () => {
-    const carrierShip = ship().carrier();
+    const carrierShip = shipFactory().carrier();
     expect(carrierShip.size).toBe(5);
   });
   test('Battleship function - return battleship object', () => {
-    const battleShip = ship().battleship();
+    const battleShip = shipFactory().battleship();
     expect(battleShip.size).toBe(4);
   });
   test('Cruiser function - return cruiser ship object', () => {
-    const cruiser = ship().cruiser();
+    const cruiser = shipFactory().cruiser();
     expect(cruiser.size).toBe(3);
   });
   test('Submarine function - return submarine ship object', () => {
-    const submarine = ship().submarine();
+    const submarine = shipFactory().submarine();
     expect(submarine.size).toBe(3);
   });
   test('Patrol Boat function - return patrolBoat ship object', () => {
-    const patrolBoat = ship().patrolBoat();
+    const patrolBoat = shipFactory().patrolboat();
     expect(patrolBoat.size).toBe(2);
   });
 });
@@ -26,7 +26,7 @@ describe('Ship factory functions', () => {
 describe('hit() should decrease life and when life is 0 sunked should become true', () => {
   
   test('Carrier Boat hit()', () => {
-    const carrierShip = ship().carrier();
+    const carrierShip = shipFactory().carrier();
     carrierShip.hit();
     expect(carrierShip.life).toBe(4);
     expect(carrierShip.isSunked).toBe(false);
@@ -40,7 +40,7 @@ describe('hit() should decrease life and when life is 0 sunked should become tru
   });
 
   test('Battle Ship hit()', () => {
-    const battleShip = ship().battleship();
+    const battleShip = shipFactory().battleship();
     battleShip.hit();
     expect(battleShip.life).toBe(3);
     expect(battleShip.isSunked).toBe(false);
@@ -53,7 +53,7 @@ describe('hit() should decrease life and when life is 0 sunked should become tru
   });
 
   test('Cruiser Ship hit()', () => {
-    const cruiserShip = ship().cruiser();
+    const cruiserShip = shipFactory().cruiser();
     cruiserShip.hit();
     expect(cruiserShip.life).toBe(2);
     expect(cruiserShip.isSunked).toBe(false);
@@ -65,7 +65,7 @@ describe('hit() should decrease life and when life is 0 sunked should become tru
   });
 
   test('Submarine Ship hit()', () => {
-    const submarine = ship().submarine();
+    const submarine = shipFactory().submarine();
     submarine.hit();
     expect(submarine.life).toBe(2);
     expect(submarine.isSunked).toBe(false);
@@ -77,7 +77,7 @@ describe('hit() should decrease life and when life is 0 sunked should become tru
   });
 
   test('Patrol Boat hit()', () => {
-    const patrolBoat = ship().patrolBoat();
+    const patrolBoat = shipFactory().patrolboat();
     patrolBoat.hit();
     expect(patrolBoat.life).toBe(1);
     expect(patrolBoat.isSunked).toBe(false);

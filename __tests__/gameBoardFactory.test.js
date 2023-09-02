@@ -1,6 +1,6 @@
 import gameBoard from '../src/js/gameBoardFactory.js';
 import ship from '../src/js/shipFactory.js';
-import { GRID, CELL_STATES, SHIPS, ERROR_MESSAGES, SHIP_ABBREVIATIONS, AXIS, MESSAGES } from '../src/js/config.js';
+import { GRID, CELL_STATES, SHIP, ERROR_MESSAGES, AXIS, MESSAGES } from '../src/js/config.js';
 
 describe('Initializing 10x10 Board', () => {
   const board = gameBoard();
@@ -21,7 +21,7 @@ describe('Initializing 10x10 Board', () => {
     expect(gameBoard().isCellEmpty(3, 6)).toBe(true);
   });
 
-  board.placeShip(SHIPS.BATTLE_SHIP, [4, 1], AXIS.Y);
+  board.placeShip(SHIP.BATTLESHIP.NAME, [4, 1], AXIS.Y);
   test('Check if cell emty, false', () => {
     expect(board.isCellEmpty(4, 1)).toBe(false);
   });
@@ -45,11 +45,11 @@ describe('Get Ships in gameBoardFactory', () => {
   });
 
   test('Carrier Ship Type', () => {
-    expect(gameBoard().getShip(SHIPS.CARRIER_SHIP).type).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(gameBoard().getShip(SHIP.CARRIER.NAME).type).toBe(SHIP.CARRIER.ABBREVIATION);
   });
 
   test('Battleship Type', () => {
-    expect(gameBoard().getShip(SHIPS.BATTLE_SHIP).type).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(gameBoard().getShip(SHIP.BATTLESHIP.NAME).type).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
 });
 
@@ -60,35 +60,35 @@ describe('Checking whether ship can be placed on X axis', () => {
   });
 
   test('placing carrier ship at 1st row 3rd column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.CARRIER_SHIP, [0,2], AXIS.X)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.CARRIER.NAME, [0,2], AXIS.X)).toBe(true);
   });
 
   test('placing carrier ship at 1st row 2nd column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.CARRIER_SHIP, [0,1], AXIS.X)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.CARRIER.NAME, [0,1], AXIS.X)).toBe(false);
   });
 
   test('placing battleship at 1st row 8th column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.BATTLE_SHIP, [4,2], AXIS.X)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.BATTLESHIP.NAME, [4,2], AXIS.X)).toBe(true);
   });
 
   test('placing battleship at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.BATTLE_SHIP, [0,0], AXIS.X)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.BATTLESHIP.NAME, [0,0], AXIS.X)).toBe(false);
   });
 
   test('placing cruiser at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.CRUISER_SHIP, [0,0], AXIS.X)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.CRUISER.NAME, [0,0], AXIS.X)).toBe(false);
   });
 
   test('placing submarine at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.SUBMARINE_SHIP, [0,0], AXIS.X)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.SUBMARINE.NAME, [0,0], AXIS.X)).toBe(false);
   });
 
   test('placing patrolBoat at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.PATROL_BOAT_SHIP, [0,0], AXIS.X)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.PATROLBOAT.NAME, [0,0], AXIS.X)).toBe(true);
   });
 
   test('placing patrolBoat at 1st row 9th column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.PATROL_BOAT_SHIP, [0,8], AXIS.X)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.PATROLBOAT.NAME, [0,8], AXIS.X)).toBe(true);
   });
 });
 
@@ -98,239 +98,239 @@ describe('Checking whether ship can be placed on X axis', () => {
   });
 
   test('placing carrier ship at 1st row 3rd column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.CARRIER_SHIP, [2,2], AXIS.Y)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.CARRIER.NAME, [2,2], AXIS.Y)).toBe(true);
   });
 
   test('placing carrier ship at 1st row 2nd column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.CARRIER_SHIP, [0,1], AXIS.Y)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.CARRIER.NAME, [0,1], AXIS.Y)).toBe(false);
   });
 
   test('placing battleship at 1st row 8th column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.BATTLE_SHIP, [4,2], AXIS.Y)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.BATTLESHIP.NAME, [4,2], AXIS.Y)).toBe(true);
   });
 
   test('placing battleship at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.BATTLE_SHIP, [0,0], AXIS.Y)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.BATTLESHIP.NAME, [0,0], AXIS.Y)).toBe(false);
   });
 
   test('placing cruiser at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.CRUISER_SHIP, [0,0], AXIS.Y)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.CRUISER.NAME, [0,0], AXIS.Y)).toBe(false);
   });
 
   test('placing submarine at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.SUBMARINE_SHIP, [0,0], AXIS.Y)).toBe(false);
+    expect(gameBoard().canPlaceShip(SHIP.SUBMARINE.NAME, [0,0], AXIS.Y)).toBe(false);
   });
 
   test('placing patrolBoat at 1st row 1st column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.PATROL_BOAT_SHIP, [0,0], AXIS.Y)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.PATROLBOAT.NAME, [0,0], AXIS.Y)).toBe(true);
   });
 
   test('placing patrolBoat at 1st row 9th column', () => {
-    expect(gameBoard().canPlaceShip(SHIPS.PATROL_BOAT_SHIP, [0,8], AXIS.Y)).toBe(true);
+    expect(gameBoard().canPlaceShip(SHIP.PATROLBOAT.NAME, [0,8], AXIS.Y)).toBe(true);
   });
 });
 
 describe('Placing Ships X axis', () => {
   const board = gameBoard();
   // Carrier Ship
-  board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.X);
+  board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.X);
   test('Place carrier ship on X axis', () => {
-    expect(board.getBoard()[2][2]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[2][2]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on X axis', () => {
-    expect(board.getBoard()[2][3]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[2][3]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on X axis', () => {
-    expect(board.getBoard()[2][4]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[2][4]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on X axis', () => {
-    expect(board.getBoard()[2][5]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[2][5]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on X axis', () => {
-    expect(board.getBoard()[2][6]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[2][6]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
  
   // BattleShip
-  board.placeShip(SHIPS.BATTLE_SHIP, [3, 1], AXIS.X);
+  board.placeShip(SHIP.BATTLESHIP.NAME, [3, 1], AXIS.X);
   test('Place BattleShip on X axis', () => {
-    expect(board.getBoard()[3][0]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[3][0]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
   test('Place BattleShip on X axis', () => {
-    expect(board.getBoard()[3][1]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[3][1]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
   test('Place BattleShip on X axis', () => {
-    expect(board.getBoard()[3][2]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[3][2]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
   test('Place BattleShip on X axis', () => {
-    expect(board.getBoard()[3][3]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[3][3]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
 
   // Cruiser Ship
-  board.placeShip(SHIPS.CRUISER_SHIP, [5, 1], AXIS.X);
+  board.placeShip(SHIP.CRUISER.NAME, [5, 1], AXIS.X);
   test('Place cruiser ship on X axis', () => {
-    expect(board.getBoard()[5][0]).toBe(SHIP_ABBREVIATIONS.CRUISER);
+    expect(board.getBoard()[5][0]).toBe(SHIP.CRUISER.ABBREVIATION);
   });
   test('Place cruiser ship on X axis', () => {
-    expect(board.getBoard()[5][1]).toBe(SHIP_ABBREVIATIONS.CRUISER);
+    expect(board.getBoard()[5][1]).toBe(SHIP.CRUISER.ABBREVIATION);
   });
   test('Place cruiser ship on X axis', () => {
-    expect(board.getBoard()[5][2]).toBe(SHIP_ABBREVIATIONS.CRUISER);
+    expect(board.getBoard()[5][2]).toBe(SHIP.CRUISER.ABBREVIATION);
   });
 
   // Submarine Ship
-  board.placeShip(SHIPS.SUBMARINE_SHIP, [7, 1], AXIS.X);
+  board.placeShip(SHIP.SUBMARINE.NAME, [7, 1], AXIS.X);
   test('Place submarine ship on X axis', () => {
-    expect(board.getBoard()[7][0]).toBe(SHIP_ABBREVIATIONS.SUBMARINE);
+    expect(board.getBoard()[7][0]).toBe(SHIP.SUBMARINE.ABBREVIATION);
   });
   test('Place submarine ship on X axis', () => {
-    expect(board.getBoard()[7][1]).toBe(SHIP_ABBREVIATIONS.SUBMARINE);
+    expect(board.getBoard()[7][1]).toBe(SHIP.SUBMARINE.ABBREVIATION);
   });
   test('Place submarine ship on X axis', () => {
-    expect(board.getBoard()[7][2]).toBe(SHIP_ABBREVIATIONS.SUBMARINE);
+    expect(board.getBoard()[7][2]).toBe(SHIP.SUBMARINE.ABBREVIATION);
   });
 
   // Patrol Boat
-  board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.X);
+  board.placeShip(SHIP.PATROLBOAT.NAME, [8, 0], AXIS.X);
   test('Place submarine ship on X axis', () => {
-    expect(board.getBoard()[8][0]).toBe(SHIP_ABBREVIATIONS.PATROL_BOAT);
+    expect(board.getBoard()[8][0]).toBe(SHIP.PATROLBOAT.ABBREVIATION);
   });
   test('Place submarine ship on X axis', () => {
-    expect(board.getBoard()[8][1]).toBe(SHIP_ABBREVIATIONS.PATROL_BOAT);
+    expect(board.getBoard()[8][1]).toBe(SHIP.PATROLBOAT.ABBREVIATION);
   });
 });
 
 describe('Placing Ships Y axis', () => {
   const board = gameBoard();
   // Carrier Ship
-  board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+  board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);
   test('Place carrier ship on Y axis', () => {
-    expect(board.getBoard()[0][4]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[0][4]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on Y axis', () => {
-    expect(board.getBoard()[1][4]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[1][4]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on Y axis', () => {
-    expect(board.getBoard()[2][4]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[2][4]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on Y axis', () => {
-    expect(board.getBoard()[3][4]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[3][4]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
   test('Place carrier ship on Y axis', () => {
-    expect(board.getBoard()[4][4]).toBe(SHIP_ABBREVIATIONS.CARRIER);
+    expect(board.getBoard()[4][4]).toBe(SHIP.CARRIER.ABBREVIATION);
   });
  
   // BattleShip
-  board.placeShip(SHIPS.BATTLE_SHIP, [3, 1], AXIS.Y);
+  board.placeShip(SHIP.BATTLESHIP.NAME, [3, 1], AXIS.Y);
   test('Place BattleShip on Y axis', () => {
-    expect(board.getBoard()[2][1]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[2][1]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
   test('Place BattleShip on Y axis', () => {
-    expect(board.getBoard()[3][1]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[3][1]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
   test('Place BattleShip on Y axis', () => {
-    expect(board.getBoard()[4][1]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[4][1]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
   test('Place BattleShip on Y axis', () => {
-    expect(board.getBoard()[5][1]).toBe(SHIP_ABBREVIATIONS.BATTLESHIP);
+    expect(board.getBoard()[5][1]).toBe(SHIP.BATTLESHIP.ABBREVIATION);
   });
 
   // Cruiser Ship
-  board.placeShip(SHIPS.CRUISER_SHIP, [5, 7], AXIS.Y);
+  board.placeShip(SHIP.CRUISER.NAME, [5, 7], AXIS.Y);
   test('Place cruiser ship on Y axis', () => {
-    expect(board.getBoard()[4][7]).toBe(SHIP_ABBREVIATIONS.CRUISER);
+    expect(board.getBoard()[4][7]).toBe(SHIP.CRUISER.ABBREVIATION);
   });
   test('Place cruiser ship on Y axis', () => {
-    expect(board.getBoard()[5][7]).toBe(SHIP_ABBREVIATIONS.CRUISER);
+    expect(board.getBoard()[5][7]).toBe(SHIP.CRUISER.ABBREVIATION);
   });
   test('Place cruiser ship on Y axis', () => {
-    expect(board.getBoard()[6][7]).toBe(SHIP_ABBREVIATIONS.CRUISER);
+    expect(board.getBoard()[6][7]).toBe(SHIP.CRUISER.ABBREVIATION);
   });
 
   // Submarine Ship
-  board.placeShip(SHIPS.SUBMARINE_SHIP, [7, 9], AXIS.Y);
+  board.placeShip(SHIP.SUBMARINE.NAME, [7, 9], AXIS.Y);
   test('Place submarine ship on Y axis', () => {
-    expect(board.getBoard()[6][9]).toBe(SHIP_ABBREVIATIONS.SUBMARINE);
+    expect(board.getBoard()[6][9]).toBe(SHIP.SUBMARINE.ABBREVIATION);
   });
   test('Place submarine ship on Y axis', () => {
-    expect(board.getBoard()[7][9]).toBe(SHIP_ABBREVIATIONS.SUBMARINE);
+    expect(board.getBoard()[7][9]).toBe(SHIP.SUBMARINE.ABBREVIATION);
   });
   test('Place submarine ship on Y axis', () => {
-    expect(board.getBoard()[8][9]).toBe(SHIP_ABBREVIATIONS.SUBMARINE);
+    expect(board.getBoard()[8][9]).toBe(SHIP.SUBMARINE.ABBREVIATION);
   });
 
   // Patrol Boat
-  board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 5], AXIS.Y);
+  board.placeShip(SHIP.PATROLBOAT.NAME, [8, 5], AXIS.Y);
   test('Place submarine ship on Y axis', () => {
-    expect(board.getBoard()[8][5]).toBe(SHIP_ABBREVIATIONS.PATROL_BOAT);
+    expect(board.getBoard()[8][5]).toBe(SHIP.PATROLBOAT.ABBREVIATION);
   });
   test('Place submarine ship on Y axis', () => {
-    expect(board.getBoard()[9][5]).toBe(SHIP_ABBREVIATIONS.PATROL_BOAT);
+    expect(board.getBoard()[9][5]).toBe(SHIP.PATROLBOAT.ABBREVIATION);
   });
 });
 
 describe('Ship placement collisions X axis', () => {
   const board = gameBoard();
 
-  board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.X);  
+  board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.X);  
   test('placing carrier ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.CARRIER_SHIP, [2, 7], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.CARRIER.NAME, [2, 7], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.BATTLE_SHIP, [3, 1], AXIS.X);
+  board.placeShip(SHIP.BATTLESHIP.NAME, [3, 1], AXIS.X);
   test('placing battleship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.BATTLE_SHIP, [3, 4], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.BATTLESHIP.NAME, [3, 4], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.CRUISER_SHIP, [4, 1], AXIS.X);
+  board.placeShip(SHIP.CRUISER.NAME, [4, 1], AXIS.X);
   test('placing cruiser ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.CRUISER_SHIP, [3, 4], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.CRUISER.NAME, [3, 4], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.CRUISER_SHIP, [5, 1], AXIS.X);
+  board.placeShip(SHIP.CRUISER.NAME, [5, 1], AXIS.X);
   test('placing cruiser ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.CRUISER_SHIP, [5, 2], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.CRUISER.NAME, [5, 2], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.SUBMARINE_SHIP, [6, 1], AXIS.X);
+  board.placeShip(SHIP.SUBMARINE.NAME, [6, 1], AXIS.X);
   test('placing cruiser ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.SUBMARINE_SHIP, [6, 2], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.SUBMARINE.NAME, [6, 2], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 });
 
 describe('Ship placement collisions Y axis', () => {
   const board = gameBoard();
 
-  board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);  
+  board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);  
   test('placing carrier ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.CARRIER_SHIP, [3, 2], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.CARRIER.NAME, [3, 2], AXIS.X)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.BATTLE_SHIP, [3, 1], AXIS.Y);
+  board.placeShip(SHIP.BATTLESHIP.NAME, [3, 1], AXIS.Y);
   test('placing battleship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.BATTLE_SHIP, [5, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.BATTLESHIP.NAME, [5, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.CRUISER_SHIP, [4, 1], AXIS.Y);
+  board.placeShip(SHIP.CRUISER.NAME, [4, 1], AXIS.Y);
   test('placing cruiser ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.CRUISER_SHIP, [3, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.CRUISER.NAME, [3, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.SUBMARINE_SHIP, [5, 1], AXIS.Y);
+  board.placeShip(SHIP.SUBMARINE.NAME, [5, 1], AXIS.Y);
   test('placing submarine ship above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.SUBMARINE_SHIP, [6, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.SUBMARINE.NAME, [6, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 
-  board.placeShip(SHIPS.PATROL_BOAT_SHIP, [6, 1], AXIS.Y);
+  board.placeShip(SHIP.PATROLBOAT.NAME, [6, 1], AXIS.Y);
   test('placing cruiser patrol boat above previously placed ship', () => {
-    expect(board.placeShip(SHIPS.PATROL_BOAT_SHIP, [5, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.PATROLBOAT.NAME, [5, 1], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 });
 
 describe('Placing same boat more than once', () => {
   const board = gameBoard();
-  board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+  board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);
   test('Placing carrier boat twice', () => {
-    expect(board.placeShip(SHIPS.CARRIER_SHIP, [9, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
+    expect(board.placeShip(SHIP.CARRIER.NAME, [9, 4], AXIS.Y)).toBe(ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED);
   });
 });
 
@@ -349,7 +349,7 @@ describe('Receiving attacks', () => {
 
 
   test('Attacking on carrier ship', () => {    
-    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
+    board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);
     // board.receiveAttack(1, 4);
     board.receiveAttack(0, 4);
     expect(board.receiveAttack(1, 4).life).toBe(5 - 2);
@@ -363,7 +363,7 @@ describe('Receiving attacks', () => {
   });
 
   test('Attacking on battle ship', () => {    
-    board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
+    board.placeShip(SHIP.BATTLESHIP.NAME, [5, 2], AXIS.X);
 
     board.receiveAttack(5, 1);
     expect(board.receiveAttack(5, 2).life).toBe(4 - 2);
@@ -375,7 +375,7 @@ describe('Receiving attacks', () => {
   });
 
   test('Attacking on cruiser ship', () => {    
-    board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
+    board.placeShip(SHIP.CRUISER.NAME, [8, 2], AXIS.Y);
 
     board.receiveAttack(7, 2);
     expect(board.receiveAttack(8, 2).life).toBe(3 - 2);
@@ -386,7 +386,7 @@ describe('Receiving attacks', () => {
   });
 
   test('Attacking on submarine ship', () => {    
-    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
+    board.placeShip(SHIP.SUBMARINE.NAME, [8, 1], AXIS.Y);
 
     board.receiveAttack(7, 1);
     expect(board.receiveAttack(8, 1).life).toBe(3 - 2);
@@ -397,7 +397,7 @@ describe('Receiving attacks', () => {
   });
 
   test('Attacking on patrol boat', () => {    
-    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+    board.placeShip(SHIP.PATROLBOAT.NAME, [8, 0], AXIS.Y);
 
     board.receiveAttack(8, 0);
     expect(board.receiveAttack(9, 0).life).toBe(2 - 2);
@@ -408,11 +408,11 @@ describe('Is game over', () => {
   const board = gameBoard();
 
   test('Is game over - true or false', () => {
-    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
-    board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
-    board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
-    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
-    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+    board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);
+    board.placeShip(SHIP.BATTLESHIP.NAME, [5, 2], AXIS.X);
+    board.placeShip(SHIP.CRUISER.NAME, [8, 2], AXIS.Y);
+    board.placeShip(SHIP.SUBMARINE.NAME, [8, 1], AXIS.Y);
+    board.placeShip(SHIP.PATROLBOAT.NAME, [8, 0], AXIS.Y);
   
     expect(board.isGameOver()).toBe(false);
 
@@ -447,21 +447,21 @@ describe('Are all 5 ships placed?', () => {
   const board = gameBoard();
 
   test('5 ships not placed', () => {
-    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
-    // board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
-    // board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
-    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
-    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+    board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);
+    // board.placeShip(SHIP.BATTLESHIP.NAME, [5, 2], AXIS.X);
+    // board.placeShip(SHIP.CRUISER.NAME, [8, 2], AXIS.Y);
+    board.placeShip(SHIP.SUBMARINE.NAME, [8, 1], AXIS.Y);
+    board.placeShip(SHIP.PATROLBOAT.NAME, [8, 0], AXIS.Y);
 
     expect(board.areShipsPlaced()).toBe(false);
   });
 
   test('All 5 ships are placed', () => {
-    board.placeShip(SHIPS.CARRIER_SHIP, [2, 4], AXIS.Y);
-    board.placeShip(SHIPS.BATTLE_SHIP, [5, 2], AXIS.X);
-    board.placeShip(SHIPS.CRUISER_SHIP, [8, 2], AXIS.Y);
-    board.placeShip(SHIPS.SUBMARINE_SHIP, [8, 1], AXIS.Y);
-    board.placeShip(SHIPS.PATROL_BOAT_SHIP, [8, 0], AXIS.Y);
+    board.placeShip(SHIP.CARRIER.NAME, [2, 4], AXIS.Y);
+    board.placeShip(SHIP.BATTLESHIP.NAME, [5, 2], AXIS.X);
+    board.placeShip(SHIP.CRUISER.NAME, [8, 2], AXIS.Y);
+    board.placeShip(SHIP.SUBMARINE.NAME, [8, 1], AXIS.Y);
+    board.placeShip(SHIP.PATROLBOAT.NAME, [8, 0], AXIS.Y);
 
     expect(board.areShipsPlaced()).toBe(true);   
   });
