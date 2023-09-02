@@ -60,7 +60,8 @@ const SHIP = {
 const ERROR_MESSAGES = {
   SHIP_CANNOT_BE_PLACED: 'Ship Cannot Be Placed Here!',
   SHIP_NOT_FOUND: 'Ship Not Found!',
-  ALREADY_HIT: 'You cannot hit this cell again because it has already been attacked.'
+  ALREADY_HIT: 'You cannot hit this cell again because it has already been attacked.',
+  NO_POSSIBLE_ATTACKS: 'No more possible attacks'
 };
 
 const MESSAGES = {
