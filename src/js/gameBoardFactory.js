@@ -195,36 +195,39 @@ function gameBoard() {
   function receiveAttack(row, col) {
     if(isGameOver()) return  MESSAGES.GAME_OVER;
     if((getBoard(row, col) === CELL_STATES.HIT) || (getBoard(row, col) === CELL_STATES.MISS)) return ERROR_MESSAGES.ALREADY_HIT;
-    if(isCellEmpty(row, col)) updateBoard(row, col, CELL_STATES.MISS);
+    if(isCellEmpty(row, col)){
+      updateBoard(row, col, CELL_STATES.MISS);
+      return CELL_STATES.MISS;
+    }
 
     if(getBoard(row, col) === SHIP.CARRIER.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       carrierShipInstance.hit();
-      return carrierShipInstance;
+      return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.BATTLESHIP.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       battleShipInstance.hit();
-      return battleShipInstance;
+      return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.CRUISER.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       cruiserShipInstance.hit();
-      return cruiserShipInstance;
+      return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.SUBMARINE.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       submarineShipInstance.hit();
-      return submarineShipInstance;
+      return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.PATROLBOAT.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
       patrolBoatInstance.hit();
-      return patrolBoatInstance;
+      return CELL_STATES.HIT;
     }
   }
 
