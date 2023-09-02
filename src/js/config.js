@@ -37,7 +37,8 @@ const ERROR_MESSAGES = {
 };
 
 const MESSAGES = {
-  GAME_OVER: 'Game Over'
+  GAME_OVER: 'Game Over',
+  ALREADY_PLACED: 'Ships are already placed'
 };
 
 const SHIP_OFFSET_VALUES = {
@@ -59,6 +60,25 @@ const SHIP_OFFSET_VALUES = {
   }
 };
 
+const SHIP_RANGE = {
+  CARRIER: {
+    MIN_RANGE: 2,
+    MAX_RANGE: 7
+  },
+  BATTLESHIP: {
+    MIN_RANGE: 1,
+    MAX_RANGE: 7
+  },
+  CRUISER_SUBMARINE: {
+    MIN_RANGE: 1,
+    MAX_RANGE: 8
+  },
+  PATROL_BOAT: {
+    MIN_RANGE: 0,
+    MAX_RANGE: 8
+  }
+}
+
 export {
   GRID,
   CELL_STATES,
@@ -67,5 +87,6 @@ export {
   SHIP_ABBREVIATIONS,
   AXIS,
   SHIP_OFFSET_VALUES,
-  MESSAGES
+  MESSAGES,
+  SHIP_RANGE
 }
