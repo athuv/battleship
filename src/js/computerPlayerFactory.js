@@ -6,7 +6,9 @@ function computerPlayer() {
   let gameBoardInstance;
   let playerOneGameBoardInstance;
   const possibleAttacks = [];
-  const queue = [];
+  const possibelHitsQueue = [];
+  let previousHit;
+  let direction;
   
   function setGameBoardInstance() {
     if(!gameBoardInstance) gameBoardInstance = gameBoard();
@@ -49,10 +51,27 @@ function computerPlayer() {
   function randomAttack() {
     if(getPossibleAttacks().length > 0) {
       const randomIndex = Math.floor(Math.random() * getPossibleAttacks().length);
-      const randomPossibleAttack = getPossibleAttacks()[randomIndex];
+      // const randomPossibleAttack = getPossibleAttacks()[randomIndex];
+      const randomPossibleAttack = [2,2];
       const attackResult = getPlayerOneGameBoardInstance().receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
       removePossibleAttack(randomIndex);
       return {attackResult, randomPossibleAttack};
+    }
+    return false;
+  }
+
+  function hitDirection(currentCell, lastHitCell) {
+    const [currentRow, currentCol] = currentCell;
+    const [lastHitRow, lastHitCol] = lastHitCell;
+
+    if(currentRow === lastHitRow) {
+      // Same row so, either left or right
+      if(currentCol > lastHitCol) return 'right';
+      if(currentCol < lastHitCol) return 'left';
+    }else if(currentCol === lastHitCol) {
+      // same column so, either above or below
+      if(currentRow > lastHitRow) return 'below';
+      if(currentRow < lastHitRow) return 'above';
     }
     return false;
   }
@@ -63,23 +82,59 @@ function computerPlayer() {
     let below;
     let left;
     let right;
-    let a;
+    console.log(`prev hit ${previousHit}`);
+    if(direction){
+      let attackArray = [];
+      if(direction === 'right') attackArray = [previousHit[0], previousHit[1] + 1];
+      if(direction === 'left') attackArray = [previousHit[0], previousHit[1] - 1];
+      if(direction === 'above') attackArray = [previousHit[0] + 1, previousHit[1]];
+      if(direction === 'above') attackArray = [previousHit[0] - 1, previousHit[1]];
 
-    if(queue.length === 0) {
+      const result = getPlayerOneGameBoardInstance().receiveAttack(attackArray[0], attackArray[1]);
+      previousHit = attackArray;
+      if(result === CELL_STATES.MISS) direction = undefined;
+      return result;
+    };
+
+    if(possibelHitsQueue.length === 0) {
       const {attackResult, randomPossibleAttack} = randomAttack();
-      a = randomPossibleAttack;
+      previousHit = randomPossibleAttack;
       if(attackResult === CELL_STATES.HIT) {
         above = [randomPossibleAttack[0] - 1, randomPossibleAttack[1]];
         below = [randomPossibleAttack[0] + 1, randomPossibleAttack[1]];
         left = [randomPossibleAttack[0], randomPossibleAttack[1] - 1];
         right = [randomPossibleAttack[0], randomPossibleAttack[1] + 1];
 
-        queue.push(above, below, left, right);
+        possibelHitsQueue.push(above, below, left, right);
+        return {info:'hit', previousHit, possibelHitsQueue};
       }      
-       return {ab:'here', a};
+      return {info:'missed', previousHit, possibelHitsQueue};
     }
-   const possibleHit = queue.shift();
-   return {queue, a, possibleHit};
+    const possibleHit = possibelHitsQueue.shift();
+    let attackResult = getPlayerOneGameBoardInstance().receiveAttack(possibleHit[0], possibleHit[1]);
+    
+
+    console.log(`attack result - ${attackResult}`);
+    console.log(`direction - ${direction}`);
+    if(!direction){
+      if(attackResult === CELL_STATES.HIT) direction = hitDirection(possibleHit ,previousHit);
+      console.log(`dir def - ${direction}`);
+    }
+    previousHit = possibleHit;
+    // while(attackResult === CELL_STATES.HIT) {
+    //   let attackArray = [];
+    //   const direction = hitDirection(possibleHit ,currentCoord);
+    //   if(direction === 'right') attackArray = [possibleHit[0], possibleHit[1] + 1];
+    //   if(direction === 'left') attackArray = [possibleHit[0], possibleHit[1] - 1];
+    //   if(direction === 'above') attackArray = [possibleHit[0] + 1, possibleHit[1]];
+    //   if(direction === 'above') attackArray = [possibleHit[0] - 1, possibleHit[1]];
+
+    //   console.log(`${direction} - ${attackArray}`);
+    //   attackResult = getPlayerOneGameBoardInstance().receiveAttack(attackArray[0], attackArray[1]);
+    //   currentCoord = possibleHit;
+    //   console.log('ok');
+    // }
+    return {info: 'next', possibelHitsQueue, previousHit, possibleHit, attackResult};
   }
 
   function getRandomCoordInRange(min, max) {
