@@ -14,6 +14,13 @@ const AXIS = {
   Y: 'y'
 }
 
+const DIRECTIONS = {
+  RIGHT: 'right',
+  LEFT: 'left',
+  ABOVE: 'above',
+  BELOW: 'below'
+}
+
 const SHIP = {
   CARRIER: {
     NAME: 'carrier',
@@ -65,6 +72,7 @@ const ERROR_MESSAGES = {
 };
 
 const MESSAGES = {
+  WIN: 'You Won!',
   GAME_OVER: 'Game Over',
   ALREADY_PLACED: 'Ships are already placed'
 };
@@ -77,5 +85,6 @@ export {
   SHIP,
   ERROR_MESSAGES,
   AXIS,
-  MESSAGES
+  MESSAGES,
+  DIRECTIONS
 }
