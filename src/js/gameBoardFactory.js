@@ -193,7 +193,7 @@ function gameBoard() {
   }
 
   function receiveAttack(row, col) {
-    if(isGameOver()) return  MESSAGES.GAME_OVER;
+    if(isGameOver()) return  MESSAGES.WIN;
     if((getBoard(row, col) === CELL_STATES.HIT) || (getBoard(row, col) === CELL_STATES.MISS)) return ERROR_MESSAGES.ALREADY_HIT;
     if(isCellEmpty(row, col)){
       updateBoard(row, col, CELL_STATES.MISS);
