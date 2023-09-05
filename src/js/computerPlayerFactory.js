@@ -1,5 +1,5 @@
 import gameBoard from "./gameBoardFactory.js";
-import { CELL_STATES, MESSAGES, SHIP, AXIS } from "./config.js";
+import { CELL_STATES, MESSAGES, SHIP, AXIS, DIRECTIONS } from "./config.js";
 
 function computerPlayer() {
 
@@ -45,18 +45,31 @@ function computerPlayer() {
     return possibleAttacks;
   }
   
-  function removePossibleAttack(index) {
+  function removePossibleAttackByIndex(index) {
     possibleAttacks.splice(index, 1);
+  }
+
+  function removePossibleAttackByValue(coordValue) {
+    const index = possibleAttacks.findIndex(item => JSON.stringify(item) === JSON.stringify(coordValue));
+    removePossibleAttackByIndex(index);
+  }
+
+  function getCellValue(row, col) {
+    const board = getPlayerOneGameBoardInstance().getBoard();
+    if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
+      return board[row][col];
+    }
+    return undefined;
   }
 
   function randomAttack() {
     if(getPossibleAttacks().length > 0) {
       const randomIndex = Math.floor(Math.random() * getPossibleAttacks().length);
       const randomPossibleAttack = getPossibleAttacks()[randomIndex];
-      // const randomPossibleAttack = [2, 9];
-      const attackResult = getPlayerOneGameBoardInstance().receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
-      removePossibleAttack(randomIndex);
-      return {attackResult, randomPossibleAttack};
+      // const randomPossibleAttack = [6, 8];
+      const randomAttackResult = getPlayerOneGameBoardInstance().receiveAttack(randomPossibleAttack[0], randomPossibleAttack[1]);
+      removePossibleAttackByIndex(randomIndex);
+      return {randomAttackResult, randomPossibleAttack};
     }
     return false;
   }
@@ -67,90 +80,94 @@ function computerPlayer() {
 
     if(currentRow === lastHitRow) {
       // Same row so, either left or right
-      if(currentCol > lastHitCol) return 'right';
-      if(currentCol < lastHitCol) return 'left';
+      if(currentCol > lastHitCol) return DIRECTIONS.RIGHT;
+      if(currentCol < lastHitCol) return DIRECTIONS.LEFT;
     }else if(currentCol === lastHitCol) {
       // same column so, either above or below
-      if(currentRow > lastHitRow) return 'below';
-      if(currentRow < lastHitRow) return 'above';
+      if(currentRow > lastHitRow) return DIRECTIONS.BELOW;
+      if(currentRow < lastHitRow) return DIRECTIONS.ABOVE;
     }
     return false;
   }
 
   function hitDirection() {
-    if(direction){
-      let attackArray = [];
+    if(!direction) return false;
 
-      if(direction === 'right') attackArray = [previousHit[0], previousHit[1] + 1];
-      if(direction === 'left') attackArray = [previousHit[0], previousHit[1] - 1];
-      if(direction === 'above') attackArray = [previousHit[0] - 1, previousHit[1]];
-      if(direction === 'below') attackArray = [previousHit[0] + 1, previousHit[1]];
+    const directions = {
+      [DIRECTIONS.RIGHT]: [0, 1],
+      [DIRECTIONS.LEFT]: [0, -1],
+      [DIRECTIONS.ABOVE]: [-1, 0],
+      [DIRECTIONS.BELOW]: [1, 0]
+    }
 
-      if(attackArray[0] > 9 || attackArray[0] < 0) return false;
-      if(attackArray[1] > 9 || attackArray[1] < 0) return false;
+     if(!directions.hasOwnProperty(direction)) return false;
 
-      const result = getPlayerOneGameBoardInstance().receiveAttack(attackArray[0], attackArray[1]);
-      previousHit = attackArray;
+    const [rowOffset, colOffset] = directions[direction];
+    const attackArray = [previousHit[0] + rowOffset, previousHit[1] + colOffset];
 
-      if(result === CELL_STATES.MISS) direction = undefined;
-      if((attackArray[0] === 0) || (attackArray[0] === 9) ) direction = undefined;
-      if((attackArray[1] === 0) || (attackArray[1] === 9) ) direction = undefined;
+    if (attackArray[0] < 0 || attackArray[0] > 9 || attackArray[1] < 0 || attackArray[1] > 9) {
+      direction = undefined;
+      return false;
+    }
 
+    const result = getPlayerOneGameBoardInstance().receiveAttack(attackArray[0], attackArray[1]);
+    removePossibleAttackByValue(attackArray);
+    previousHit = attackArray;
+  
+    if(result === CELL_STATES.MISS) direction = undefined;
+    // if (result === CELL_STATES.MISS || attackArray.includes(0) || attackArray.includes(9)) {
+    //   direction = undefined;
+    // }
+  
+    return result;
+  }
 
-      return result;
+  function pushToPossibleHitQueue(row, col) {
+    const cellValue = getCellValue(row, col);
+    if(cellValue !== undefined && cellValue !== CELL_STATES.HIT && cellValue !== CELL_STATES.MISS){
+      possibelHitsQueue.push([row, col]);
+      return true;
     }
     return false;
   }
 
-  function attack() {
-    //debugger;
-    let above;
-    let below;
-    let left;
-    let right;
-    console.log(`prev hit ${previousHit}`);
-
-    const directionResult = hitDirection();
-    if (directionResult !== false) {
-      return directionResult;
-    }
-
-    if(possibelHitsQueue.length === 0) {
-      const {attackResult, randomPossibleAttack} = randomAttack();
+  function generatePossibelHitQueue(attackResult, randomPossibleAttack) { 
       previousHit = randomPossibleAttack;
       firstHit = randomPossibleAttack;
       if(attackResult === CELL_STATES.HIT) {
-        above = [randomPossibleAttack[0] - 1, randomPossibleAttack[1]];
-        const abovCellValue = getPlayerOneGameBoardInstance().getBoard()[above[0]][above[1]];
-        if(above[0] >= 0 && (abovCellValue !== CELL_STATES.HIT) && (abovCellValue !== CELL_STATES.MISS)) possibelHitsQueue.push(above);
+        const [row, col] = randomPossibleAttack;
+        
+        //Above
+        pushToPossibleHitQueue(row - 1, col);
+        //below
+        pushToPossibleHitQueue(row + 1, col);
+        // right
+        pushToPossibleHitQueue(row, col + 1);
+        // left
+        pushToPossibleHitQueue(row, col -1);
 
-        below = [randomPossibleAttack[0] + 1, randomPossibleAttack[1]];
-        const belowCellValue = getPlayerOneGameBoardInstance().getBoard()[below[0]][below[1]];
-        if(below[0] <= 9 && (belowCellValue !== CELL_STATES.HIT) && (belowCellValue !== CELL_STATES.MISS)) possibelHitsQueue.push(below);
-
-        left = [randomPossibleAttack[0], randomPossibleAttack[1] - 1];
-        const leftCellValue = getPlayerOneGameBoardInstance().getBoard()[left[0]][left[1]];
-        if(left[1] >= 0 && (leftCellValue !== CELL_STATES.HIT) && (leftCellValue !== CELL_STATES.MISS)) possibelHitsQueue.push(left);
-
-        right = [randomPossibleAttack[0], randomPossibleAttack[1] + 1];
-        const rightCellValue = getPlayerOneGameBoardInstance().getBoard()[right[0]][right[1]];
-        if(right[1] <= 9 && (rightCellValue !== CELL_STATES.HIT) && (rightCellValue !== CELL_STATES.MISS)) possibelHitsQueue.push(right);
-
-        // possibelHitsQueue.push(above, below, left, right);
-        return {info:'hit', previousHit, possibelHitsQueue};
+        return {info:attackResult, previousHit, possibelHitsQueue};
       }      
       return {info:attackResult, previousHit, possibelHitsQueue};
-    }
+  }
+
+  function attack() {
+    const directionResult = hitDirection();
+    if (directionResult !== false) return directionResult;
+
+    if(possibelHitsQueue.length === 0) {
+      const {randomAttackResult, randomPossibleAttack} = randomAttack();
+      return generatePossibelHitQueue(randomAttackResult, randomPossibleAttack);
+    }   
+
     const possibleHit = possibelHitsQueue.shift();
     let attackResult = getPlayerOneGameBoardInstance().receiveAttack(possibleHit[0], possibleHit[1]);
-    
+    removePossibleAttackByValue(possibleHit);
 
     console.log(`attack result - ${attackResult}`);
     console.log(`direction - ${direction}`);
     if(!direction){
       if(attackResult === CELL_STATES.HIT) direction = isHitDirection(possibleHit, firstHit);
-      // if((possibleHit[0] === 0) || (possibleHit[0] === 9) ) direction = undefined;
-      // if((possibleHit[1] === 0) || (possibleHit[1] === 9) ) direction = undefined;
       console.log(`dir def - ${direction}`);
     }
     previousHit = possibleHit;
@@ -194,7 +211,7 @@ function computerPlayer() {
   }
 
   // remove  possibleAttacks, generatePossibleAttacks, getPlayerOneGameBoardInstance, getRandomCoordInRange, getGameBoardInstance
-  // isHitDirection
+  // isHitDirection, pushToPossibleHitQueue, possibelHitsQueue
   return {
     getBoard,
     getPossibleAttacks,
@@ -206,7 +223,9 @@ function computerPlayer() {
     getGameBoardInstance,
     possibleAttacks,
     attack,
-    isHitDirection
+    isHitDirection,
+    pushToPossibleHitQueue, 
+    possibelHitsQueue
   }
 }
 
