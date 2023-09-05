@@ -3,14 +3,23 @@ import { GRID, CELL_STATES, SHIP, ERROR_MESSAGES, AXIS, MESSAGES } from './confi
 
 function gameBoard() {
 
-  const shipInstance = shipFactory();
-  const carrierShipInstance = shipInstance.carrier();
-  const battleShipInstance = shipInstance.battleship();
-  const cruiserShipInstance = shipInstance.cruiser();
-  const submarineShipInstance = shipInstance.submarine();
-  const patrolBoatInstance = shipInstance.patrolboat();
   // Make sure ships only placed once
-  let placedShips = new Set();  
+  let placedShips = new Set(); 
+  const shipInstance = shipFactory();
+
+  function createShipInstances() {
+    const shipInstances = {
+      [SHIP.CARRIER.NAME]: shipInstance.carrier(),
+      [SHIP.BATTLESHIP.NAME]: shipInstance.battleship(),
+      [SHIP.CRUISER.NAME]: shipInstance.cruiser(),
+      [SHIP.SUBMARINE.NAME]: shipInstance.submarine(),
+      [SHIP.PATROLBOAT.NAME]: shipInstance.patrolboat()
+    };
+
+    return shipInstances;
+  }
+
+  const shipTypeInstances = createShipInstances();
 
   let BOARD = Array.from({ length: GRID.ROWS }, () =>
     Array.from({ length: GRID.COLUMNS }, () => CELL_STATES.EMPTY)
@@ -29,9 +38,17 @@ function gameBoard() {
     return BOARD;
   }
 
+  function getShipInstance(shipType) {
+    if(shipTypeInstances.hasOwnProperty(shipType)){
+      return shipTypeInstances[shipType];
+    }else {
+      return false;
+    }
+  }
+
   function getShip(shipType) {
     if([SHIP.CARRIER.NAME, SHIP.BATTLESHIP.NAME, SHIP.CRUISER.NAME, SHIP.SUBMARINE.NAME, SHIP.PATROLBOAT.NAME].includes(shipType)){
-      return shipFactory()[shipType]();
+      return shipInstance[shipType]();
     }
     return false;
   }
@@ -42,8 +59,9 @@ function gameBoard() {
   }
 
   function isGameOver() {
-    if((carrierShipInstance.isSunked === true) && (battleShipInstance.isSunked === true) && 
-    (cruiserShipInstance.isSunked === true) && (submarineShipInstance.isSunked === true) && (patrolBoatInstance.isSunked === true)) {
+    if((getShipInstance(SHIP.CARRIER.NAME).isSunked === true) && (getShipInstance(SHIP.BATTLESHIP.NAME).isSunked === true) && 
+    (getShipInstance(SHIP.CRUISER.NAME).isSunked === true) && (getShipInstance(SHIP.SUBMARINE.NAME).isSunked === true) && 
+    (getShipInstance(SHIP.PATROLBOAT.NAME).isSunked === true)) {
       return true;
     }
 
@@ -201,32 +219,32 @@ function gameBoard() {
     }
 
     if(getBoard(row, col) === SHIP.CARRIER.ABBREVIATION) {      
-      updateBoard(row, col, CELL_STATES.HIT);      
-      carrierShipInstance.hit();
+      updateBoard(row, col, CELL_STATES.HIT);   
+      getShipInstance(SHIP.CARRIER.NAME).hit();
       return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.BATTLESHIP.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
-      battleShipInstance.hit();
+      getShipInstance(SHIP.BATTLESHIP.NAME).hit();
       return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.CRUISER.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
-      cruiserShipInstance.hit();
+      getShipInstance(SHIP.CRUISER.NAME).hit();
       return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.SUBMARINE.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
-      submarineShipInstance.hit();
+      getShipInstance(SHIP.SUBMARINE.NAME).hit();
       return CELL_STATES.HIT;
     }
 
     if(getBoard(row, col) === SHIP.PATROLBOAT.ABBREVIATION) {      
       updateBoard(row, col, CELL_STATES.HIT);      
-      patrolBoatInstance.hit();
+      getShipInstance(SHIP.PATROLBOAT.NAME).hit();
       return CELL_STATES.HIT;
     }
   }
@@ -243,7 +261,8 @@ function gameBoard() {
     receiveAttack,
     isGameOver,
     areShipsPlaced,
-    resetBoard
+    resetBoard,
+    getShipInstance
   }
 }
 
