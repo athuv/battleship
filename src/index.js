@@ -1,7 +1,7 @@
 import './css/styles.css';
-import gameBoard from './js/gameBoardFactory.js';
-import player from './js/playerFactory.js';
-import computerPlayer from './js/computerPlayerFactory.js';
+import gameBoard from './js/factories/gameBoardFactory.js';
+import player from './js/factories/playerFactory.js';
+import computerPlayer from './js/factories/computerPlayerFactory.js';
             
 function component() {
   const gameBoardInstance = gameBoard();
