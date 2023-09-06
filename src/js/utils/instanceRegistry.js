@@ -1,4 +1,4 @@
-import gameBoard from "../factories/gameBoardFactory";
+import gameBoard from "../factories/gameBoardFactory.js";
 import computerPlayer from "../factories/computerPlayerFactory.js";
 import player from "../factories/playerFactory.js";
 import shipFactory from "../factories/shipFactory.js";
@@ -7,6 +7,17 @@ const gameBoardFactoryInstance = gameBoard();
 const computerPlayerFactoryInstance = computerPlayer();
 const playerFactoryInstance = player();
 const shipFactoryInstance = shipFactory();
+
+const playerOneGameBoardInstance = gameBoardFactoryInstance;
+const playerTwoGameBoardInstance = gameBoardFactoryInstance;
+
+function getPlayerOneGameBoardInstance() {
+  return playerOneGameBoardInstance;
+}
+
+function getPlayerTwoGameBoardInstance() {
+  return playerTwoGameBoardInstance;
+}
 
 function getGameBoardFactoryInstance() {
   return gameBoardFactoryInstance;
@@ -28,5 +39,7 @@ export {
   getGameBoardFactoryInstance,
   getComputerPlayerFactoryInstance,
   getPlayerFactoryInstance,
-  getShipFactoryInstance
+  getShipFactoryInstance,
+  getPlayerOneGameBoardInstance,
+  getPlayerTwoGameBoardInstance
 }
