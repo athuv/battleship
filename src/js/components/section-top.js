@@ -40,6 +40,4 @@ function createTopSection() {
   return sectionTop;
 }
 
-export {
-  createTopSection
-}
+export default createTopSection;
