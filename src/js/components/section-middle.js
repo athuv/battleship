@@ -78,6 +78,24 @@ function createPlayerTwoGrid() {
   return rightAside;
 }
 
+function handlePlayerOncCellClick(event) {
+  const target = event.target;
+
+  if(target.classList.contains('grid-container__grid-right-cell')){
+    const rowIndex = target.getAttribute('data-row');
+    const colIndex = target.getAttribute('data-column');
+    
+    console.log(`Cell clicked: Row ${rowIndex}, Column ${colIndex}`);
+  }else{
+    console.log('here');
+  }
+}
+
+function middleSectionEventListeners() {
+  const playerOneCells =  document.querySelector('.middle-left__grid-container');
+  playerOneCells.addEventListener('click', handlePlayerOncCellClick);
+}
+
 function createMiddleSection() {
   const middleSection = domManager.createSectionElement(
     ['section-middle']
@@ -88,7 +106,11 @@ function createMiddleSection() {
     createPlayerOncGrid(),
     createPlayerTwoGrid()
   );
+
   return middleSection;
 }
 
-export default createMiddleSection;
+export {
+  createMiddleSection,
+  middleSectionEventListeners
+};
