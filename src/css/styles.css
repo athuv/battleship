@@ -1,0 +1,121 @@
+:root {
+  --primary-background-color: #CAF0F8;
+  --secondary-background-color: #90E0EF;
+  --font-color: #03045E;
+  --font-color-transparent: rgba(3, 4, 94, 0.5);
+  --primary-accent-color: #00B4D8;
+  --secondary-accent-color: #0077B6;
+}
+
+@font-face {
+  font-family: 'spaceCruiser'; /* Choose a unique name for your font */
+  src: url('../fonts/Spacec5l.ttf') format('truetype'); /* Path to your .ttf file */
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  color: var(--font-color);
+  font-family: 'spaceCruiser';
+  background-color: var(--primary-accent-color); 
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 2rem);
+  padding: 1rem;
+}
+
+.section-top {
+  background:var(--primary-accent-color);
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.section-middle {
+  background:var(--primary-accent-color);
+  flex: 1; 
+  display: flex;
+}
+
+.section-bottom {
+  display: flex;
+  background:var(--primary-accent-color);
+  height: 3rem; 
+  justify-content: center;
+  align-items: center;
+}
+
+.middle-left {
+  flex: 1;
+  border-right: 2px solid;
+}
+
+.middle-right {
+  flex: 1;
+  border-left: 2px solid;
+}
+
+.middle-left__grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 columns */
+  grid-template-rows: repeat(10, 1fr); /* 10 rows */
+  gap: 2px; /* Adjust the gap between grid cells as needed */
+  width: 36rem;
+  height: 36rem;
+  margin: 0 auto;
+  margin-top: 0.5rem;
+}
+
+.middle-right__grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 columns */
+  grid-template-rows: repeat(10, 1fr); /* 10 rows */
+  gap: 2px; /* Adjust the gap between grid cells as needed */
+  width: 36rem;
+  height: 36rem;
+  margin: 0 auto;
+  margin-top: 0.5rem;
+}
+
+.grid-container__grid-left-cell {
+  background-color: var(--secondary-accent-color); /* Set your desired background color */
+  border: 1px solid #000; /* Add borders to cells for separation (optional) */
+}
+
+.grid-container__grid-right-cell {
+  background-color: var(--secondary-accent-color); /* Set your desired background color */
+  border: 1px solid #000; /* Add borders to cells for separation (optional) */
+}
+
+p {
+  font-family: 'spaceCruiser';
+  color: var(--font-color);
+}
+
+.player-one {
+  align-self: flex-end;
+  text-align: center;
+  flex: 1;
+}
+
+.player-one__name {
+  padding-left: 12rem;
+}
+
+.top-heading {
+  text-align: center;
+  font-size: 3rem;
+  flex: 1;
+  margin: 0;
+}
+
+.player-two {
+  align-self: flex-end;
+  text-align: center;
+  flex: 1;
+}
+
+.player-two__name {
+  padding-right: 12rem;
+}
