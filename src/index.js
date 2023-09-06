@@ -1,26 +1,12 @@
 import './css/styles.css';
-import gameBoard from './js/factories/gameBoardFactory.js';
-import player from './js/factories/playerFactory.js';
-import computerPlayer from './js/factories/computerPlayerFactory.js';
-            
+import * as domManager from './js/utils/domUtils.js';
+import { createTopSection } from './js/components/section-top.js';
+
 function component() {
-  const gameBoardInstance = gameBoard();
-  const playerInstance = player();
-  const computerPlayerInstance = computerPlayer();
+  const bodyElement = document.body;
+  domManager.appendChildElements(bodyElement, createTopSection())
 
-  const playerOne = playerInstance.createPlayer('John');
-  const playerTwo = playerInstance.createPlayer('Kevin');
-
-  const gameBoardPlayerOne = gameBoardInstance;
-  const gameBoardPlayerTwo = computerPlayerInstance;
-  
-  computerPlayerInstance.setPlayerOneGameBoardInstance(gameBoardPlayerOne);
-
-  window.p1gb = gameBoardPlayerOne;
-  window.p2gb = gameBoardPlayerTwo;
-
-  const element = document.createElement('div');
-  return element;
+  return bodyElement;
 }
             
-document.body.appendChild(component());
+document.documentElement.appendChild(component());
