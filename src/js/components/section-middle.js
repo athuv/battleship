@@ -1,36 +1,11 @@
 import * as domManager from '../utils/domUtils.js';
 import { ERROR_MESSAGES, SHIP } from '../utils/config.js';
 import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance } from '../utils/instanceRegistry.js';
+import generateGridCells from './genereate-grid-cells.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
 window.a = playerOneGameBoardInstance;
-
-function generatePlayerOnceGridCells() {
-  const playerOneBoard = playerOneGameBoardInstance.getBoard();
-  const cells = [];
-
-  playerOneBoard.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
-      const divCell = domManager.createDivElement(
-        ['grid-container__grid-left-cell'],
-        {},
-        {
-          'data-row': rowIndex,
-          'data-column': colIndex
-        }
-      );
-      if(cell === SHIP.CARRIER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
-      if(cell === SHIP.BATTLESHIP.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
-      if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
-      if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
-      if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
-      cells.push(divCell);
-    });
-  });
-
-  return cells;
-}
 
 function createPlayerOncGrid() {
   const leftAside = domManager.createAsideElement(
@@ -41,7 +16,7 @@ function createPlayerOncGrid() {
     ['middle-left__grid-container']
   );
 
-  const cells = generatePlayerOnceGridCells();
+  const cells = generateGridCells('grid-container__grid-left-cell');
 
   domManager.appendChildElements(
     div,
