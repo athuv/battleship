@@ -1,12 +1,38 @@
 import * as domManager from '../utils/domUtils.js';
+import { ERROR_MESSAGES, SHIP } from '../utils/config.js';
 import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance } from '../utils/instanceRegistry.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
+window.a = playerOneGameBoardInstance;
+
+function generatePlayerOnceGridCells() {
+  const playerOneBoard = playerOneGameBoardInstance.getBoard();
+  const cells = [];
+
+  playerOneBoard.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      const divCell = domManager.createDivElement(
+        ['grid-container__grid-left-cell'],
+        {},
+        {
+          'data-row': rowIndex,
+          'data-column': colIndex
+        }
+      );
+      if(cell === SHIP.CARRIER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
+      if(cell === SHIP.BATTLESHIP.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
+      if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
+      if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
+      if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-left-cell--placed');
+      cells.push(divCell);
+    });
+  });
+
+  return cells;
+}
 
 function createPlayerOncGrid() {
-  const playerOneBoard = playerOneGameBoardInstance.getBoard();
-
   const leftAside = domManager.createAsideElement(
     ['middle-left']
   );
@@ -15,23 +41,12 @@ function createPlayerOncGrid() {
     ['middle-left__grid-container']
   );
 
-  playerOneBoard.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
-      const divCell = domManager.createDivElement(
-        ['grid-container__grid-right-cell'],
-        {},
-        {
-          'data-row': rowIndex,
-          'data-column': colIndex
-        }
-      );
+  const cells = generatePlayerOnceGridCells();
 
-      domManager.appendChildElements(
-        div,
-        divCell
-      );
-    });
-  });
+  domManager.appendChildElements(
+    div,
+    ...cells
+  );
 
   domManager.appendChildElements(
     leftAside,
@@ -55,7 +70,7 @@ function createPlayerTwoGrid() {
   playerTwoBoard.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       const divCell = domManager.createDivElement(
-        ['grid-container__grid-left-cell'],
+        ['grid-container__grid-right-cell'],
         {},
         {
           'data-row': rowIndex,
@@ -78,22 +93,79 @@ function createPlayerTwoGrid() {
   return rightAside;
 }
 
+function handlePlayerOneShipPlacementCheck(event) {
+  const target = event.target;
+  console.log('attached');
+  if(target.classList.contains('grid-container__grid-left-cell')) {
+    const rowIndex = target.getAttribute('data-row');
+    const colIndex = target.getAttribute('data-column');
+    let shipType;
+
+    if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CARRIER.NAME)) {
+      shipType = SHIP.CARRIER.NAME;
+    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.BATTLESHIP.NAME)) {
+      shipType = SHIP.BATTLESHIP.NAME;
+    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CRUISER.NAME)) {
+      shipType = SHIP.CRUISER.NAME;
+    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.SUBMARINE.NAME)) {
+      shipType = SHIP.SUBMARINE.NAME;
+    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.PATROLBOAT.NAME)) {
+      shipType = SHIP.PATROLBOAT.NAME;
+    }else if(playerOneGameBoardInstance.areShipsPlaced()) {
+      const playerOneCells =  document.querySelector('.middle-left__grid-container');
+      playerOneCells.removeEventListener('mouseover', handlePlayerOneShipPlacementCheck);
+      playerOneCells.removeEventListener('click', handlePlayerOncCellClick);
+    }
+
+    const results = playerOneGameBoardInstance.canPlaceShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');    
+    if(!results) target.style.cursor = 'not-allowed';
+    
+  }
+}
+
 function handlePlayerOncCellClick(event) {
   const target = event.target;
 
-  if(target.classList.contains('grid-container__grid-right-cell')){
+  if(target.classList.contains('grid-container__grid-left-cell')){
     const rowIndex = target.getAttribute('data-row');
     const colIndex = target.getAttribute('data-column');
-    
-    console.log(`Cell clicked: Row ${rowIndex}, Column ${colIndex}`);
-  }else{
-    console.log('here');
+    let shipType;
+
+    if(!playerOneGameBoardInstance.areShipsPlaced()) {
+      if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CARRIER.NAME)) {
+        shipType = SHIP.CARRIER.NAME;
+      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.BATTLESHIP.NAME)) {
+        shipType = SHIP.BATTLESHIP.NAME;
+      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CRUISER.NAME)) {
+        shipType = SHIP.CRUISER.NAME;
+      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.SUBMARINE.NAME)) {
+        shipType = SHIP.SUBMARINE.NAME;
+      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.PATROLBOAT.NAME)) {
+        shipType = SHIP.PATROLBOAT.NAME;
+      }
+
+      const results = playerOneGameBoardInstance.placeShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
+
+      if(results === ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED) ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED;
+      if(results === true) {
+        const leftGridContainer = document.querySelector('.middle-left__grid-container');
+        leftGridContainer.innerHTML = '';
+        const cells = generatePlayerOnceGridCells();
+        domManager.appendChildElements(
+          leftGridContainer,
+          ...cells
+        );
+      }
+    }else {
+      console.log('everything placed');
+    }
   }
 }
 
 function middleSectionEventListeners() {
   const playerOneCells =  document.querySelector('.middle-left__grid-container');
   playerOneCells.addEventListener('click', handlePlayerOncCellClick);
+  playerOneCells.addEventListener('mouseover', handlePlayerOneShipPlacementCheck);
 }
 
 function createMiddleSection() {
