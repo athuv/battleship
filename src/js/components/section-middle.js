@@ -1,7 +1,7 @@
 import * as domManager from '../utils/domUtils.js';
 import { ERROR_MESSAGES, SHIP } from '../utils/config.js';
 import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance } from '../utils/instanceRegistry.js';
-import generateGridCells from './genereate-grid-cells.js';
+import generateGridCells from './generate-grid-cells.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
