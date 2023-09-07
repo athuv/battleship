@@ -53,9 +53,10 @@ function gameBoard() {
     return false;
   }
 
-  function areShipsPlaced() {
-    return (placedShips.size === 5);
-
+  function areShipsPlaced(shipType) {
+    if(placedShips.size === 5) return true;
+    if(placedShips.has(shipType)) return true;
+    return false;
   }
 
   function isGameOver() {
