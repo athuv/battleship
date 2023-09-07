@@ -96,6 +96,17 @@ function createPopupFooter() {
   return section;
 }
 
+function handleResetButtonClick() {
+  playerOneGameBoardInstance.resetBoard();
+  const popupGridContainer = document.querySelector('.popup__body__grid-container');
+  popupGridContainer.innerHTML = '';
+  const cells = generateGridCells('popup__body__grid-cell');
+  domManager.appendChildElements(
+    popupGridContainer,
+    ...cells
+  );
+}
+
 function handleShipPlacementOnClick(event) {
   const target = event.target;
 
@@ -165,8 +176,11 @@ function handleShipPlacementCheckOnHover(event) {
 
 function popupEventListeners() {
   const popupGridContainer = document.querySelector('.popup__body__grid-container');
+  const btnReset = document.querySelector('.footer__btn-reset');
+
   popupGridContainer.addEventListener('mouseover', handleShipPlacementCheckOnHover);
   popupGridContainer.addEventListener('click', handleShipPlacementOnClick);
+  btnReset.addEventListener('click', handleResetButtonClick);
 }
 
 function createPopup() {
