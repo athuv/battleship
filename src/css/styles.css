@@ -274,6 +274,10 @@ input:checked + .slider:before {
   margin-top: 0.5rem;
 }
 
+.popup__body__grid-container--error {
+  border: 5px solid red;
+}
+
 .popup__body__grid-cell {
   background-color: var(--secondary-accent-color); /* Set your desired background color */
   border: 1px solid #000; /* Add borders to cells for separation (optional) */
