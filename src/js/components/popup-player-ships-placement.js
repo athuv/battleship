@@ -130,7 +130,16 @@ function shipPlacementCheck(shipType) {
 }
 
 function getAxisValue() {
+  const btnValue =  document.getElementById('toggle-switch');
+  return btnValue.value;
+}
 
+function handleAxisChange(event) {
+  const btnAxisValue = event.target.value;
+  let axisValue;
+  if(btnAxisValue === AXIS.X) axisValue = AXIS.Y;
+  if(btnAxisValue === AXIS.Y) axisValue = AXIS.X;
+  event.target.value = axisValue;
 }
 
 function handleShipPlacementOnClick(event) {
@@ -149,7 +158,7 @@ function handleShipPlacementOnClick(event) {
       if(!shipPlacementCheck(SHIP.BATTLESHIP.NAME)) shipType = SHIP.BATTLESHIP.NAME;
       if(!shipPlacementCheck(SHIP.CARRIER.NAME)) shipType = SHIP.CARRIER.NAME;
 
-      const results = playerOneGameBoardInstance.placeShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
+      const results = playerOneGameBoardInstance.placeShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], getAxisValue());
 
       if(results === ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED) ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED;
       if(results === true) {
@@ -169,7 +178,6 @@ function handleShipPlacementOnClick(event) {
 }
 
 function handleShipPlacementCheckOnHover(event) {
-
   const target = event.target;
   let possiblePlacementCells = [];
   const playerGridContainer = document.querySelector('.popup__body__grid-container');
@@ -188,8 +196,8 @@ function handleShipPlacementCheckOnHover(event) {
       if(!shipPlacementCheck(SHIP.BATTLESHIP.NAME)) shipType = SHIP.BATTLESHIP.NAME;
       if(!shipPlacementCheck(SHIP.CARRIER.NAME)) shipType = SHIP.CARRIER.NAME;
 
-      const results = playerOneGameBoardInstance.canPlaceShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
-      const possibleCells = playerOneGameBoardInstance.possiblePlacementCells(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
+      const results = playerOneGameBoardInstance.canPlaceShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], getAxisValue());
+      const possibleCells = playerOneGameBoardInstance.possiblePlacementCells(shipType, [parseInt(rowIndex), parseInt(colIndex)], getAxisValue());
       
       if(possibleCells) {
         possibleCells.forEach((cell) => {
@@ -219,10 +227,14 @@ function handleShipPlacementCheckOnHover(event) {
 function popupEventListeners() {
   const popupGridContainer = document.querySelector('.popup__body__grid-container');
   const btnReset = document.querySelector('.footer__btn-reset');
+  const btnAxisToggle = document.getElementById('toggle-switch');
+  const btnStart = document.querySelector('.footer__btnfooter__btn-start');
 
   popupGridContainer.addEventListener('mouseover', handleShipPlacementCheckOnHover);
   popupGridContainer.addEventListener('click', handleShipPlacementOnClick);
   btnReset.addEventListener('click', handleResetButtonClick);
+  btnAxisToggle.addEventListener('change', handleAxisChange);
+  btnStart.addEventListener('click', handleBtnStartClick);
 }
 
 function createPopup() {
