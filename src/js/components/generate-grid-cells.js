@@ -12,7 +12,7 @@ function generateGridCells(className) {
   playerOneBoard.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       const divCell = domManager.createDivElement(
-        [className],
+        [`${className}`, `${rowIndex}-${colIndex}`],
         {},
         {
           'data-row': rowIndex,
