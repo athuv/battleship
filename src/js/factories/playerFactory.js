@@ -1,12 +1,18 @@
 function player() {
+  let playerName;
+
   function createPlayer(name) {
-    return {
-      name: name
-    }
+    playerName = name;
+  }
+
+
+  function getPlayerName() {
+    return playerName;
   }
 
   return {
-    createPlayer
+    createPlayer,
+    getPlayerName
   }
 }
 
