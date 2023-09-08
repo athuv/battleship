@@ -204,6 +204,11 @@ p {
   cursor: pointer;
 }
 
+.popup__body__grid-cell--placed {
+  background-color: var(--font-color-transparent); /* Set your desired background color */
+  border: 1px solid #000; /* Add borders to cells for separation (optional) */
+  cursor: pointer;
+}
 
 .popup__footer {
   display: flex;
