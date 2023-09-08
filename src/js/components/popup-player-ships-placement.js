@@ -107,6 +107,15 @@ function handleResetButtonClick() {
   );
 }
 
+function shipPlacementCheck(shipType) {
+  if(!shipType) return playerOneGameBoardInstance.areShipsPlaced();
+  if(shipType) return playerOneGameBoardInstance.areShipsPlaced(shipType);
+}
+
+function getAxisValue() {
+
+}
+
 function handleShipPlacementOnClick(event) {
   const target = event.target;
 
@@ -115,18 +124,13 @@ function handleShipPlacementOnClick(event) {
     const colIndex = target.getAttribute('data-column');
     let shipType;
 
-    if(!playerOneGameBoardInstance.areShipsPlaced()) {
-      if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CARRIER.NAME)) {
-        shipType = SHIP.CARRIER.NAME;
-      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.BATTLESHIP.NAME)) {
-        shipType = SHIP.BATTLESHIP.NAME;
-      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CRUISER.NAME)) {
-        shipType = SHIP.CRUISER.NAME;
-      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.SUBMARINE.NAME)) {
-        shipType = SHIP.SUBMARINE.NAME;
-      }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.PATROLBOAT.NAME)) {
-        shipType = SHIP.PATROLBOAT.NAME;
-      }
+    if(!shipPlacementCheck()){
+      
+      if(!shipPlacementCheck(SHIP.PATROLBOAT.NAME)) shipType = SHIP.PATROLBOAT.NAME;
+      if(!shipPlacementCheck(SHIP.SUBMARINE.NAME)) shipType = SHIP.SUBMARINE.NAME;
+      if(!shipPlacementCheck(SHIP.CRUISER.NAME)) shipType = SHIP.CRUISER.NAME;
+      if(!shipPlacementCheck(SHIP.BATTLESHIP.NAME)) shipType = SHIP.BATTLESHIP.NAME;
+      if(!shipPlacementCheck(SHIP.CARRIER.NAME)) shipType = SHIP.CARRIER.NAME;
 
       const results = playerOneGameBoardInstance.placeShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
 
@@ -154,19 +158,14 @@ function handleShipPlacementCheckOnHover(event) {
     let shipType;
     console.log('att');
 
-    if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CARRIER.NAME)) {
-      shipType = SHIP.CARRIER.NAME;
-    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.BATTLESHIP.NAME)) {
-      shipType = SHIP.BATTLESHIP.NAME;
-    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.CRUISER.NAME)) {
-      shipType = SHIP.CRUISER.NAME;
-    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.SUBMARINE.NAME)) {
-      shipType = SHIP.SUBMARINE.NAME;
-    }else if(!playerOneGameBoardInstance.areShipsPlaced(SHIP.PATROLBOAT.NAME)) {
-      shipType = SHIP.PATROLBOAT.NAME;
-    }else if(playerOneGameBoardInstance.areShipsPlaced()) {
-     const playerOneCells =  document.querySelector('.popup__body__grid-container');
-     playerOneCells.removeEventListener('mouseover', handleShipPlacementCheckOnHover);
+    if(!shipPlacementCheck(SHIP.PATROLBOAT.NAME)) shipType = SHIP.PATROLBOAT.NAME;
+    if(!shipPlacementCheck(SHIP.SUBMARINE.NAME)) shipType = SHIP.SUBMARINE.NAME;
+    if(!shipPlacementCheck(SHIP.CRUISER.NAME)) shipType = SHIP.CRUISER.NAME;
+    if(!shipPlacementCheck(SHIP.BATTLESHIP.NAME)) shipType = SHIP.BATTLESHIP.NAME;
+    if(!shipPlacementCheck(SHIP.CARRIER.NAME)) shipType = SHIP.CARRIER.NAME;
+    if(shipPlacementCheck()) {
+       const playerOneCells =  document.querySelector('.popup__body__grid-container');
+       playerOneCells.removeEventListener('mouseover', handleShipPlacementCheckOnHover);
     }
 
     const results = playerOneGameBoardInstance.canPlaceShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');    
