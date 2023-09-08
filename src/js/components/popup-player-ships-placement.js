@@ -2,6 +2,7 @@ import * as domManager from '../utils/domUtils.js';
 import { ERROR_MESSAGES, SHIP, AXIS } from '../utils/config.js';
 import generateGridCells from './generate-grid-cells.js';
 import { getPlayerOneGameBoardInstance, getPlayerFactoryInstance } from '../utils/instanceRegistry.js';
+import initPlay from '../factories/initPlayFactory.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerOneInstnace = getPlayerFactoryInstance();
@@ -151,16 +152,26 @@ function handleAxisChange(event) {
 }
 
 function handleBtnStartClick() {
+  // debugger;
   const playerName = document.querySelector('.player-name--textbox');
 
   if(playerName.value.trim() === '') playerName.style.borderColor = 'red';
-  if(playerName.value.trim() !== '') playerOneInstnace.createPlayer(playerName.value.trim());
+  if(playerName.value.trim() !== '') {
+    playerOneInstnace.createPlayer(playerName.value.trim());
+  }
+
+  if(!playerOneGameBoardInstance.areShipsPlaced()) {
+    const gridContainer = document.querySelector('.popup__body__grid-container');
+    gridContainer.classList.add('popup__body__grid-container--error');
+  }
+
 }
 
 function handleShipPlacementOnClick(event) {
   const target = event.target;
 
   if(target.classList.contains('popup__body__grid-cell')){
+    const playerGridContainer = document.querySelector('.popup__body__grid-container'); 
     const rowIndex = target.getAttribute('data-row');
     const colIndex = target.getAttribute('data-column');
     let shipType;
@@ -177,6 +188,8 @@ function handleShipPlacementOnClick(event) {
 
       if(results === ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED) ERROR_MESSAGES.SHIP_CANNOT_BE_PLACED;
       if(results === true) {
+        if(shipType === SHIP.PATROLBOAT.NAME) playerGridContainer.classList.remove('popup__body__grid-container--error');
+
         const popupGridContainer = document.querySelector('.popup__body__grid-container');
         popupGridContainer.innerHTML = '';
         const cells = generateGridCells('popup__body__grid-cell');
@@ -185,8 +198,7 @@ function handleShipPlacementOnClick(event) {
           ...cells
         );
       }
-    }else {
-      const playerGridContainer = document.querySelector('.popup__body__grid-container');
+    }else {           
       playerGridContainer.removeEventListener('mouseover', handleShipPlacementOnClick);
     }
   }
