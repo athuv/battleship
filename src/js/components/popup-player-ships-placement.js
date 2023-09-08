@@ -165,6 +165,14 @@ function handleBtnStartClick() {
     gridContainer.classList.add('popup__body__grid-container--error');
   }
 
+  if(playerOneGameBoardInstance.areShipsPlaced() && playerOneInstnace.getPlayerName()){
+    const initResults = initPlay();
+    if(initResults){
+      const popupOverlay = document.querySelector('.popup-overlay');
+      popupOverlay.style.display = 'none';
+    }
+  }
+
 }
 
 function handleShipPlacementOnClick(event) {
