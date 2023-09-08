@@ -1,9 +1,11 @@
 import * as domManager from '../utils/domUtils.js';
 import { ERROR_MESSAGES, SHIP, AXIS } from '../utils/config.js';
 import generateGridCells from './generate-grid-cells.js';
-import { getPlayerOneGameBoardInstance } from '../utils/instanceRegistry.js';
+import { getPlayerOneGameBoardInstance, getPlayerFactoryInstance } from '../utils/instanceRegistry.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
+const playerOneInstnace = getPlayerFactoryInstance();
+window.p = playerOneInstnace;
 
 function createPopupBody() {
   const section = domManager.createSectionElement(['popup__body']);
@@ -134,12 +136,25 @@ function getAxisValue() {
   return btnValue.value;
 }
 
+function handleTextNameTyped(event) {
+  const textNameValue = event.target.value;
+  if(textNameValue.trim() !== '') event.target.style.borderColor = 'var(--font-color)';
+  if(textNameValue.trim() === '') event.target.style.borderColor = 'red';
+}
+
 function handleAxisChange(event) {
   const btnAxisValue = event.target.value;
   let axisValue;
   if(btnAxisValue === AXIS.X) axisValue = AXIS.Y;
   if(btnAxisValue === AXIS.Y) axisValue = AXIS.X;
   event.target.value = axisValue;
+}
+
+function handleBtnStartClick() {
+  const playerName = document.querySelector('.player-name--textbox');
+
+  if(playerName.value.trim() === '') playerName.style.borderColor = 'red';
+  if(playerName.value.trim() !== '') playerOneInstnace.createPlayer(playerName.value.trim());
 }
 
 function handleShipPlacementOnClick(event) {
@@ -229,12 +244,14 @@ function popupEventListeners() {
   const btnReset = document.querySelector('.footer__btn-reset');
   const btnAxisToggle = document.getElementById('toggle-switch');
   const btnStart = document.querySelector('.footer__btnfooter__btn-start');
+  const textName = document.querySelector('.player-name--textbox');
 
   popupGridContainer.addEventListener('mouseover', handleShipPlacementCheckOnHover);
   popupGridContainer.addEventListener('click', handleShipPlacementOnClick);
   btnReset.addEventListener('click', handleResetButtonClick);
   btnAxisToggle.addEventListener('change', handleAxisChange);
   btnStart.addEventListener('click', handleBtnStartClick);
+  textName.addEventListener('input', handleTextNameTyped)
 }
 
 function createPopup() {
