@@ -250,6 +250,64 @@ function gameBoard() {
     }
   }
 
+  function possiblePlacementCells(shipType, position, axis) {
+    const possilbeCells = [];
+
+    if(canPlaceShip(shipType, position, axis)) {
+      if(axis === AXIS.X) {
+        if(shipType === SHIP.CARRIER.NAME) {
+          for (let offset = SHIP.CARRIER.MIN_OFFSET; offset <= SHIP.CARRIER.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0], position[1] + offset]);
+          }          
+        }else if(shipType === SHIP.BATTLESHIP.NAME) {
+          for (let offset = SHIP.BATTLESHIP.MIN_OFFSET; offset <= SHIP.BATTLESHIP.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0], position[1] + offset]);
+          } 
+        }else if(shipType === SHIP.CRUISER.NAME) {
+          for (let offset = SHIP.CRUISER.MIN_OFFSET; offset <= SHIP.CRUISER.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0], position[1] + offset]);
+          } 
+        }else if(shipType === SHIP.SUBMARINE.NAME){
+          for (let offset = SHIP.SUBMARINE.MIN_OFFSET; offset <= SHIP.SUBMARINE.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0], position[1] + offset]);
+          } 
+        }else if(shipType === SHIP.PATROLBOAT.NAME) {
+          for (let offset = SHIP.PATROLBOAT.MIN_OFFSET; offset <= SHIP.PATROLBOAT.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0], position[1] + offset]);
+          } 
+        }
+      }
+      
+      if(axis === AXIS.Y) {
+        if(shipType === SHIP.CARRIER.NAME) {
+          for (let offset = SHIP.CARRIER.MIN_OFFSET; offset <= SHIP.CARRIER.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0] + offset, position[1]]);
+          }          
+        }else if(shipType === SHIP.BATTLESHIP.NAME) {
+          for (let offset = SHIP.BATTLESHIP.MIN_OFFSET; offset <= SHIP.BATTLESHIP.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0] + offset, position[1]]);
+          } 
+        }else if(shipType === SHIP.CRUISER.NAME) {
+          for (let offset = SHIP.CRUISER.MIN_OFFSET; offset <= SHIP.CRUISER.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0] + offset, position[1]]);
+          } 
+        }else if(shipType === SHIP.SUBMARINE.NAME) {
+          for (let offset = SHIP.SUBMARINE.MIN_OFFSET; offset <= SHIP.SUBMARINE.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0] + offset, position[1]]);
+          } 
+        }else if(shipType === SHIP.PATROLBOAT.NAME) {
+          for (let offset = SHIP.PATROLBOAT.MIN_OFFSET; offset <= SHIP.PATROLBOAT.MAX_OFFSET; offset++) {
+            possilbeCells.push([position[0] + offset, position[1]]);
+          } 
+        }
+      }
+      
+      return possilbeCells;
+    }
+
+    return false;
+  }
+
   // Remove getShip, canPlaceShip, isCellEmpty, updateBoard
   return {
     getBoard,
@@ -263,7 +321,8 @@ function gameBoard() {
     isGameOver,
     areShipsPlaced,
     resetBoard,
-    getShipInstance
+    getShipInstance,
+    possiblePlacementCells
   }
 }
 
