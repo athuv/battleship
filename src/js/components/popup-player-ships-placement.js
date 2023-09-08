@@ -1,5 +1,5 @@
 import * as domManager from '../utils/domUtils.js';
-import { ERROR_MESSAGES, SHIP } from '../utils/config.js';
+import { ERROR_MESSAGES, SHIP, AXIS } from '../utils/config.js';
 import generateGridCells from './generate-grid-cells.js';
 import { getPlayerOneGameBoardInstance } from '../utils/instanceRegistry.js';
 
@@ -34,16 +34,26 @@ function createPopupBody() {
     textInput
   );
 
-  const asideGrid = domManager.createAsideElement(['popup__body__grid']);
-  const span = domManager.createSpanElement(['body__grid__heading'], {innerText: 'Place Your Ships'});
-  const buttonAxis = domManager.createButtonElement(['body__btn-change-axis'], {innerText: 'Axis: Y'});
+  const asideGrid = domManager.createAsideElement();
+  const divHeading = domManager.createDivElement(['popup__body__heading']);
+  const spanHeading = domManager.createSpanElement([], {innerText: 'Place Your Ships'});
+  const btnDiv = domManager.createDivElement(['body__heading__btn-xy-toggle']);
+  
+  const spanX = domManager.createSpanElement([], {innerText: AXIS.X.toLocaleUpperCase()});
+  const spanY = domManager.createSpanElement([], {innerText: AXIS.Y.toLocaleUpperCase()});
+  const labelToggle = domManager.createlabelElement(['btn-xy-toggle']);
+  const input = domManager.createInputElement([], {}, {type:'checkbox', value: AXIS.X, id: 'toggle-switch'});
+  const spanRound = domManager.createSpanElement(['slider', 'round']);
+
+  domManager.appendChildElements(btnDiv, spanX, labelToggle, spanY);
+  domManager.appendChildElements(labelToggle, input, spanRound);
 
   const divGridContainer = domManager.createDivElement(['popup__body__grid-container']);
   const cells = generateGridCells('popup__body__grid-cell');
 
+  domManager.appendChildElements(divHeading, spanHeading, btnDiv)
   domManager.appendChildElements(divGridContainer, ...cells);
-  domManager.appendChildElements(span, buttonAxis);
-  domManager.appendChildElements(asideGrid, span, divGridContainer);
+  domManager.appendChildElements(asideGrid, divHeading, divGridContainer);
 
   domManager.appendChildElements(
     section,
