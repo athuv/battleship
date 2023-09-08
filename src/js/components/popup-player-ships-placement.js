@@ -99,6 +99,13 @@ function createPopupFooter() {
 function handleResetButtonClick() {
   playerOneGameBoardInstance.resetBoard();
   const popupGridContainer = document.querySelector('.popup__body__grid-container');
+
+  popupGridContainer.removeEventListener('mouseover', handleShipPlacementCheckOnHover);
+  popupGridContainer.addEventListener('mouseover', handleShipPlacementCheckOnHover);
+
+  popupGridContainer.removeEventListener('click', handleShipPlacementOnClick);
+  popupGridContainer.addEventListener('click', handleShipPlacementOnClick);
+
   popupGridContainer.innerHTML = '';
   const cells = generateGridCells('popup__body__grid-cell');
   domManager.appendChildElements(
@@ -145,32 +152,58 @@ function handleShipPlacementOnClick(event) {
         );
       }
     }else {
-      console.log('everything placed');
+      const playerGridContainer = document.querySelector('.popup__body__grid-container');
+      playerGridContainer.removeEventListener('mouseover', handleShipPlacementOnClick);
     }
   }
 }
 
 function handleShipPlacementCheckOnHover(event) {
+
   const target = event.target;
+  let possiblePlacementCells = [];
+  const playerGridContainer = document.querySelector('.popup__body__grid-container');
+  const playerOnceCells = playerGridContainer.querySelectorAll('.popup__body__grid-cell');
   if(target.classList.contains('popup__body__grid-cell')){
     const rowIndex = target.getAttribute('data-row');
     const colIndex = target.getAttribute('data-column');
     let shipType;
     console.log('att');
 
-    if(!shipPlacementCheck(SHIP.PATROLBOAT.NAME)) shipType = SHIP.PATROLBOAT.NAME;
-    if(!shipPlacementCheck(SHIP.SUBMARINE.NAME)) shipType = SHIP.SUBMARINE.NAME;
-    if(!shipPlacementCheck(SHIP.CRUISER.NAME)) shipType = SHIP.CRUISER.NAME;
-    if(!shipPlacementCheck(SHIP.BATTLESHIP.NAME)) shipType = SHIP.BATTLESHIP.NAME;
-    if(!shipPlacementCheck(SHIP.CARRIER.NAME)) shipType = SHIP.CARRIER.NAME;
-    if(shipPlacementCheck()) {
-       const playerOneCells =  document.querySelector('.popup__body__grid-container');
-       playerOneCells.removeEventListener('mouseover', handleShipPlacementCheckOnHover);
-    }
 
-    const results = playerOneGameBoardInstance.canPlaceShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');    
-    if(!results) target.style.cursor = 'not-allowed';
+    if(!shipPlacementCheck()) {
+      if(!shipPlacementCheck(SHIP.PATROLBOAT.NAME)) shipType = SHIP.PATROLBOAT.NAME;
+      if(!shipPlacementCheck(SHIP.SUBMARINE.NAME)) shipType = SHIP.SUBMARINE.NAME;
+      if(!shipPlacementCheck(SHIP.CRUISER.NAME)) shipType = SHIP.CRUISER.NAME;
+      if(!shipPlacementCheck(SHIP.BATTLESHIP.NAME)) shipType = SHIP.BATTLESHIP.NAME;
+      if(!shipPlacementCheck(SHIP.CARRIER.NAME)) shipType = SHIP.CARRIER.NAME;
+
+      const results = playerOneGameBoardInstance.canPlaceShip(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
+      const possibleCells = playerOneGameBoardInstance.possiblePlacementCells(shipType, [parseInt(rowIndex), parseInt(colIndex)], 'x');
+      
+      if(possibleCells) {
+        possibleCells.forEach((cell) => {
+          possiblePlacementCells.push(`${cell[0]}-${cell[1]}`);
+        });
+      }
+  
+      if(!results) target.style.cursor = 'not-allowed';
+    }else {
+      playerGridContainer.removeEventListener('mouseover', handleShipPlacementCheckOnHover);
+    }
   }
+
+
+  if(possiblePlacementCells.length > 0){
+    playerOnceCells.forEach((cell) => {
+      const classList = cell.classList;
+      cell.classList.remove('popup__body__grid-cell--placed');
+      if (possiblePlacementCells.some((className) => classList.contains(className))) {
+        cell.classList.add('popup__body__grid-cell--placed');
+      }
+    });
+  }
+
 }
 
 function popupEventListeners() {
