@@ -52,7 +52,7 @@ function createPopupBody() {
   domManager.appendChildElements(labelToggle, input, spanRound);
 
   const divGridContainer = domManager.createDivElement(['popup__body__grid-container']);
-  const cells = generateGridCells('popup__body__grid-cell');
+  const cells = generateGridCells().playerOneCells('popup__body__grid-cell');
 
   domManager.appendChildElements(divHeading, spanHeading, btnDiv)
   domManager.appendChildElements(divGridContainer, ...cells);
@@ -120,7 +120,7 @@ function handleResetButtonClick() {
   popupGridContainer.addEventListener('click', handleShipPlacementOnClick);
 
   popupGridContainer.innerHTML = '';
-  const cells = generateGridCells('popup__body__grid-cell');
+  const cells = generateGridCells().playerOneCells('popup__body__grid-cell');
   domManager.appendChildElements(
     popupGridContainer,
     ...cells
@@ -172,7 +172,7 @@ function handleBtnStartClick() {
       popupOverlay.style.display = 'none';
       const playerOneGridConatiner = document.querySelector('.middle-left__grid-container');
       playerOneGridConatiner.innerHTML = '';
-      const cells = generateGridCells('grid-container__grid-left-cell');
+      const cells = generateGridCells().playerOneCells('grid-container__grid-left-cell');
       domManager.appendChildElements(
         playerOneGridConatiner,
         ...cells
@@ -207,7 +207,7 @@ function handleShipPlacementOnClick(event) {
 
         const popupGridContainer = document.querySelector('.popup__body__grid-container');
         popupGridContainer.innerHTML = '';
-        const cells = generateGridCells('popup__body__grid-cell');
+        const cells = generateGridCells().playerOneCells('popup__body__grid-cell');
         domManager.appendChildElements(
           popupGridContainer,
           ...cells

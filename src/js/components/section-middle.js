@@ -13,7 +13,7 @@ function createPlayerOncGrid() {
 
   const div = domManager.createDivElement(['middle-left__grid-container']);
 
-  const cells = generateGridCells('grid-container__grid-left-cell');
+  const cells = generateGridCells().playerOneCells('grid-container__grid-left-cell');
 
   domManager.appendChildElements(div, ...cells);
 
