@@ -4,10 +4,10 @@ import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance } from '..
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
-
+window.p2c = playerTwoGameBoardInstance;
 function generateGridCells() {
 
-  function playerTwoCells(className) {
+  function playerTwoCells(className, isHighligtShips) {
     const playerTwoBoard = playerTwoGameBoardInstance.getBoard();
     const cells = [];
   
@@ -21,11 +21,15 @@ function generateGridCells() {
             'data-column': colIndex
           }
         );
-        if(cell === SHIP.CARRIER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-        if(cell === SHIP.BATTLESHIP.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-        if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-        if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-        if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+
+        if(isHighligtShips){
+          if(cell === SHIP.CARRIER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+          if(cell === SHIP.BATTLESHIP.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+          if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+          if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+          if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+        }
+
         cells.push(divCell);
       });
     });
