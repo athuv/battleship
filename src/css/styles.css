@@ -81,7 +81,7 @@ body {
 }
 
 .grid-container__grid-left-cell {
-  position: relative;
+  /* position: relative; */
   background-color: var(--secondary-accent-color); 
   border: 1px solid #000;
 
@@ -93,7 +93,7 @@ body {
 }
 
 .grid-container__grid-right-cell {
-  position: relative;
+  /* position: relative; */
   background-color: var(--secondary-accent-color);
   border: 1px solid #000;
   cursor: pointer;
@@ -314,29 +314,31 @@ button:hover {
 
 /* Neon */
 
-.neon-blue::before {
-  content: "";
+.neon-miss {
+  background: var(--neon-glow-orange);
+  /* content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: radial-gradient(circle, var(--neon-glow-orange) 90%, var(--neon-glow-orange) 100%);
-  animation: neon-glow 1s linear infinite;
+  animation: neon-glow 1s linear infinite; */
 }
 
-.neon-red::before {
-  content: "";
+.neon-hit {
+  background: var(--neon-glow-red);
+  /* content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: radial-gradient(circle, var(--neon-glow-red) 90%, var(--neon-glow-red) 100%);
-  animation: neon-glow 1s linear infinite;
+  animation: neon-glow 1s linear infinite; */
 }
 
-@keyframes neon-glow {
+/* @keyframes neon-glow {
   0% {
     transform: scale(1);
     opacity: 1;
@@ -348,5 +350,5 @@ button:hover {
   100% {
     transform: scale(1);
     opacity: 1;
-  }
-}
+  } 
+} */
