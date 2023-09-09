@@ -1,5 +1,5 @@
 import * as domManager from '../utils/domUtils.js';
-import { ERROR_MESSAGES, SHIP } from '../utils/config.js';
+import { ERROR_MESSAGES, SHIP, CELL_STATES } from '../utils/config.js';
 import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance } from '../utils/instanceRegistry.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
@@ -28,8 +28,11 @@ function generateGridCells() {
           if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
           if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
           if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-        }
 
+          
+        }
+        if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-blue');
+        if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-red');
         cells.push(divCell);
       });
     });
@@ -56,6 +59,8 @@ function generateGridCells() {
         if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
         if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
         if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
+        if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-blue');
+        if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-red');
         cells.push(divCell);
       });
     });
