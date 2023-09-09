@@ -6,7 +6,7 @@ import generateGridCells from './generate-grid-cells.js';
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
 window.a = playerOneGameBoardInstance;
-window.s = playerTwoGameBoardInstance;
+window.w = playerTwoGameBoardInstance;
 
 function createPlayerOncGrid() {
   const leftAside = domManager.createAsideElement(['middle-left']);
@@ -23,27 +23,14 @@ function createPlayerOncGrid() {
 }
 
 function createPlayerTwoGrid() {
-  const playerTwoBoard = playerTwoGameBoardInstance.getBoard();
 
   const rightAside = domManager.createAsideElement(['middle-right']);
 
   const div = domManager.createDivElement(['middle-right__grid-container']);
 
-  playerTwoBoard.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
-      const divCell = domManager.createDivElement(
-        ['grid-container__grid-right-cell'],
-        {},
-        {
-          'data-row': rowIndex,
-          'data-column': colIndex
-        }
-      );
+  const cells = generateGridCells().playerTwoCells('grid-container__grid-right-cell', false);
 
-      domManager.appendChildElements(div, divCell);
-    });
-  });
-
+  domManager.appendChildElements(div, ...cells);
   domManager.appendChildElements(rightAside, div);
 
   return rightAside;
