@@ -31,8 +31,8 @@ function generateGridCells() {
 
           
         }
-        if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-blue');
-        if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-red');
+        if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-miss');
+        if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-hit');
         cells.push(divCell);
       });
     });
@@ -59,8 +59,8 @@ function generateGridCells() {
         if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
         if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
         if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-        if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-blue');
-        if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-red');
+        if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-miss');
+        if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-hit');
         cells.push(divCell);
       });
     });
