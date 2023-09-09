@@ -11,7 +11,7 @@ function initPlay() {
   playerComputerGameBoard.placeComputerShips();
   let isCanStartGame = false;
 
- if((playerNameInstance.getPlayerName() !== '') && (playerTwoInstance.areShipsPlaced()) && playerOneGameBoard.areShipsPlaced()){
+ if((playerNameInstance.getPlayerOne().name) && (playerTwoInstance.areShipsPlaced()) && playerOneGameBoard.areShipsPlaced()){
   isCanStartGame = true;
   return true;
  }

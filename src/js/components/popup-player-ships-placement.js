@@ -157,7 +157,7 @@ function handleBtnStartClick() {
 
   if(playerName.value.trim() === '') playerName.style.borderColor = 'red';
   if(playerName.value.trim() !== '') {
-    playerOneInstnace.createPlayer(playerName.value.trim());
+    playerOneInstnace.createPlayer(playerName.value.trim(), 1);
   }
 
   if(!playerOneGameBoardInstance.areShipsPlaced()) {
@@ -165,7 +165,7 @@ function handleBtnStartClick() {
     gridContainer.classList.add('popup__body__grid-container--error');
   }
 
-  if(playerOneGameBoardInstance.areShipsPlaced() && playerOneInstnace.getPlayerName()){
+  if(playerOneGameBoardInstance.areShipsPlaced() && playerOneInstnace.getPlayerOne().name){
     const initResults = initPlay();
     if(initResults){
       const popupOverlay = document.querySelector('.popup-overlay');
