@@ -15,7 +15,7 @@ function component() {
     createBottomSection(),
     createPopup()
   );
-  
+
   popupEventListeners();
   return bodyElement;
 }
