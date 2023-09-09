@@ -8,8 +8,8 @@ const computerPlayerFactoryInstance = computerPlayer();
 const playerFactoryInstance = player();
 const shipFactoryInstance = shipFactory();
 
-const playerOneGameBoardInstance = gameBoardFactoryInstance;
-const playerTwoGameBoardInstance = computerPlayer().getGameBoardInstance();
+const playerOneGameBoardInstance = gameBoard();
+const playerTwoGameBoardInstance = gameBoard();
 
 function getPlayerOneGameBoardInstance() {
   return playerOneGameBoardInstance;
