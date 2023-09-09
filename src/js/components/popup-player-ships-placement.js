@@ -170,6 +170,13 @@ function handleBtnStartClick() {
     if(initResults){
       const popupOverlay = document.querySelector('.popup-overlay');
       popupOverlay.style.display = 'none';
+      const playerOneGridConatiner = document.querySelector('.middle-left__grid-container');
+      playerOneGridConatiner.innerHTML = '';
+      const cells = generateGridCells('grid-container__grid-left-cell');
+      domManager.appendChildElements(
+        playerOneGridConatiner,
+        ...cells
+      );
     }
   }
 
@@ -221,8 +228,6 @@ function handleShipPlacementCheckOnHover(event) {
     const rowIndex = target.getAttribute('data-row');
     const colIndex = target.getAttribute('data-column');
     let shipType;
-    console.log('att');
-
 
     if(!shipPlacementCheck()) {
       if(!shipPlacementCheck(SHIP.PATROLBOAT.NAME)) shipType = SHIP.PATROLBOAT.NAME;
