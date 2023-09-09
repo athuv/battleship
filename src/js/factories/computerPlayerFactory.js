@@ -1,4 +1,4 @@
-import gameBoard from "./gameBoardFactory.js";
+import {getPlayerTwoGameBoardInstance} from "../utils/instanceRegistry.js";
 import { CELL_STATES, MESSAGES, SHIP, AXIS, DIRECTIONS } from "../utils/config.js";
 
 function computerPlayer() {
@@ -11,20 +11,16 @@ function computerPlayer() {
   let direction;
   let firstHit = [];
   
-  function setGameBoardInstance() {
-    if(!gameBoardInstance) gameBoardInstance = gameBoard();
-  }
-
   function getGameBoardInstance() {
-    setGameBoardInstance();
+    if(!gameBoardInstance) gameBoardInstance = getPlayerTwoGameBoardInstance();
     return gameBoardInstance;
   }
 
   function getBoard(){
-    setGameBoardInstance();
-    return gameBoardInstance.getBoard();
+    return getGameBoardInstance().getBoard();
   }
 
+  // maybe can be removed
   function setPlayerOneGameBoardInstance(playerOneGameBoard) {
     if(!playerOneGameBoardInstance) playerOneGameBoardInstance = playerOneGameBoard;
   }
@@ -33,6 +29,7 @@ function computerPlayer() {
     setPlayerOneGameBoardInstance();
     return playerOneGameBoardInstance;
   }
+// end of can be removed
 
   function getPossibleAttacks() {
     if(possibleAttacks.length === 0){
