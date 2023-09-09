@@ -170,12 +170,21 @@ function handleBtnStartClick() {
     if(initResults){
       const popupOverlay = document.querySelector('.popup-overlay');
       popupOverlay.style.display = 'none';
+
       const playerOneGridConatiner = document.querySelector('.middle-left__grid-container');
       playerOneGridConatiner.innerHTML = '';
       const cells = generateGridCells().playerOneCells('grid-container__grid-left-cell');
       domManager.appendChildElements(
         playerOneGridConatiner,
         ...cells
+      );
+
+      const playerTwoGridConatiner = document.querySelector('.middle-right__grid-container');
+      playerTwoGridConatiner.innerHTML = '';
+      const cellsTwo = generateGridCells().playerTwoCells('grid-container__grid-right-cell', false);
+      domManager.appendChildElements(
+        playerTwoGridConatiner,
+        ...cellsTwo
       );
     }
   }
