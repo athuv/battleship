@@ -1,4 +1,4 @@
-import {getPlayerTwoGameBoardInstance} from "../utils/instanceRegistry.js";
+import {getPlayerTwoGameBoardInstance, getPlayerOneGameBoardInstance as getPlayerOneBoard } from "../utils/instanceRegistry.js";
 import { CELL_STATES, MESSAGES, SHIP, AXIS, DIRECTIONS } from "../utils/config.js";
 
 function computerPlayer() {
@@ -21,19 +21,19 @@ function computerPlayer() {
   }
 
   // maybe can be removed
-  function setPlayerOneGameBoardInstance(playerOneGameBoard) {
-    if(!playerOneGameBoardInstance) playerOneGameBoardInstance = playerOneGameBoard;
-  }
+  // function setPlayerOneGameBoardInstance(playerOneGameBoard) {
+  //   if(!playerOneGameBoardInstance) playerOneGameBoardInstance = playerOneGameBoard;
+  // }
 
   function getPlayerOneGameBoardInstance() {
-    setPlayerOneGameBoardInstance();
+    playerOneGameBoardInstance = getPlayerOneBoard();
     return playerOneGameBoardInstance;
   }
 // end of can be removed
 
   function getPossibleAttacks() {
     if(possibleAttacks.length === 0){
-      getPlayerOneGameBoardInstance().getBoard().forEach((row, rowIndex) => {
+      getBoard().forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
           if(cell !== CELL_STATES.MISS && cell !== CELL_STATES.HIT) possibleAttacks.push([rowIndex, colIndex]);
         });
@@ -213,7 +213,6 @@ function computerPlayer() {
     getBoard,
     getPossibleAttacks,
     randomAttack,
-    setPlayerOneGameBoardInstance,
     getPlayerOneGameBoardInstance,
     placeComputerShips,
     getRandomCoordInRange,
