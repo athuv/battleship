@@ -81,18 +81,18 @@ body {
 .grid-container__grid-left-cell {
   background-color: var(--secondary-accent-color); /* Set your desired background color */
   border: 1px solid #000; /* Add borders to cells for separation (optional) */
-  cursor: pointer;
+
 }
 
 .grid-container__grid-left-cell--placed {
   background-color: var(--font-color); /* Set your desired background color */
   border: 1px solid #000; /* Add borders to cells for separation (optional) */
-  cursor: pointer;
 }
 
 .grid-container__grid-right-cell {
   background-color: var(--secondary-accent-color); /* Set your desired background color */
   border: 1px solid #000; /* Add borders to cells for separation (optional) */
+  cursor: pointer;
 }
 
 p {
