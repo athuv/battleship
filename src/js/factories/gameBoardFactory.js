@@ -218,7 +218,7 @@ function gameBoard() {
     }
 
     if(getBoard(row, col) === SHIP.CARRIER.ABBREVIATION) {      
-      updateBoard(row, col, CELL_STATES.HIT);   
+      updateBoard(row, col, CELL_STATES.HIT);
       getShipInstance(SHIP.CARRIER.NAME).hit();
       return CELL_STATES.HIT;
     }
