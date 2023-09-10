@@ -5,8 +5,6 @@ import generateGridCells from './generate-grid-cells.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
-window.p1 = playerOneGameBoardInstance;
-window.p2 = playerTwoGameBoardInstance;
 
 function createPlayerOncGrid() {
   const leftAside = domManager.createAsideElement(['middle-left']);
