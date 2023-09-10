@@ -1,7 +1,7 @@
 import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance, getComputerPlayerFactoryInstance, getPlayerFactoryInstance } from '../utils/instanceRegistry.js';
 import generateGridCells from '../components/generate-grid-cells.js';
 import * as domManager from '../utils/domUtils.js';
-import { MESSAGES } from '../utils/config.js';
+import { MESSAGES, CELL_STATES } from '../utils/config.js';
 
 const playerOneGameBoard = getPlayerOneGameBoardInstance();
 const playerTwoGameBoard = getPlayerTwoGameBoardInstance();
@@ -14,9 +14,16 @@ function switchPlayer() {
   currentPlayer = (currentPlayer === 1) ? 2 : 1;
 }
 
+function messages(message) {
+  const spanMessagebox = document.querySelector('.section-bottom__message-box');
+  spanMessagebox.innerHTML = "";
+  spanMessagebox.innerText = message;
+}
+
 function playerOnePlay(event) {
   const target = event.target;
   if (target.classList.contains('grid-container__grid-right-cell')) {
+
     const rowIndex = target.getAttribute('data-row');
     const colIndex = target.getAttribute('data-column');
 
@@ -24,14 +31,18 @@ function playerOnePlay(event) {
 
     const playerTwoGridContainer = document.querySelector('.middle-right__grid-container');
     playerTwoGridContainer.removeEventListener('click', playerOnePlay);
+    playerTwoGridContainer.classList.add('middle-right__grid-container--disabled');
 
     playerTwoGridContainer.innerHTML = '';
-    const cells = generateGridCells().playerTwoCells('grid-container__grid-right-cell', false);
+    const cells = generateGridCells().playerTwoCells('grid-container__grid-right-cell', false, [parseInt(rowIndex), parseInt(colIndex)]);
+    
     domManager.appendChildElements(
       playerTwoGridContainer,
       ...cells
     );
 
+  //  if(results === CELL_STATES.HIT) target.classList.add('cell__last-attack--hit');
+  //  if(results === CELL_STATES.MISS) target.classList.add('cell__last-attack--miss');
     switchPlayer();
     play();
   }
@@ -42,17 +53,20 @@ function play() {
   if(playerTwoGameBoard.isGameOver() === true) return `${playerNameInstance.getPlayerOne().name} - ${MESSAGES.WIN}`;
 
   if (currentPlayer === 1) {
+    messages(`${playerNameInstance.getPlayerOne().name}'s Turn.`);
     const playerTwoGridContainer = document.querySelector('.middle-right__grid-container');
+    playerTwoGridContainer.classList.remove('middle-right__grid-container--disabled');
     playerTwoGridContainer.addEventListener('click', playerOnePlay);
   }
   
   if (currentPlayer === 2) {
+    messages(`${playerNameInstance.getPlayerOne().name} Attacked, Now Computers's Turn.`);
     const res = PlayerTwoUtils.attack();
-
-    setTimeout(() => {
+    console.log(res.previousHit);
+    setTimeout(() => {            
       const playerOneGridConatiner = document.querySelector('.middle-left__grid-container');
       playerOneGridConatiner.innerHTML = '';
-      const cells = generateGridCells().playerOneCells('grid-container__grid-left-cell');
+      const cells = generateGridCells().playerOneCells('grid-container__grid-left-cell', res.previousHit);
       domManager.appendChildElements(
         playerOneGridConatiner,
         ...cells
@@ -60,7 +74,7 @@ function play() {
 
       switchPlayer();
       play();
-    }, 2000);
+    }, 1000);
   }
 }
 
