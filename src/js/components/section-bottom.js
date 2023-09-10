@@ -7,7 +7,7 @@ function createBottomSection() {
 
   const span = domManager.createSpanElement(
     ['section-bottom__message-box'],
-    {innerText: 'Place Your Carrier Ship'}
+    {innerText: 'Place Your Ships'}
   );
 
   domManager.appendChildElements(
