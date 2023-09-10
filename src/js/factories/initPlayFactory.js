@@ -1,7 +1,7 @@
 import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance, getComputerPlayerFactoryInstance, getPlayerFactoryInstance } from '../utils/instanceRegistry.js';
 import generateGridCells from '../components/generate-grid-cells.js';
 import * as domManager from '../utils/domUtils.js';
-import { MESSAGES, CELL_STATES } from '../utils/config.js';
+import { MESSAGES, CELL_STATES, MESSAGE_TYPE } from '../utils/config.js';
 
 const playerOneGameBoard = getPlayerOneGameBoardInstance();
 const playerTwoGameBoard = getPlayerTwoGameBoardInstance();
@@ -14,10 +14,12 @@ function switchPlayer() {
   currentPlayer = (currentPlayer === 1) ? 2 : 1;
 }
 
-function messages(message) {
+function messages(message, type) {
   const spanMessagebox = document.querySelector('.section-bottom__message-box');
   spanMessagebox.innerHTML = "";
-  spanMessagebox.innerText = message;
+  
+  if(type === 'text') spanMessagebox.innerText = message;
+  if(type === 'html') spanMessagebox.innerHTML = message;
 }
 
 function playerOnePlay(event) {
@@ -53,14 +55,14 @@ function play() {
   if(playerTwoGameBoard.isGameOver() === true) return `${playerNameInstance.getPlayerOne().name} - ${MESSAGES.WIN}`;
 
   if (currentPlayer === 1) {
-    messages(`${playerNameInstance.getPlayerOne().name}'s Turn.`);
+    messages(`<span>${playerNameInstance.getPlayerOne().name}'s Turn.</span><span><span class="message-box__orange">Orange</span> = Missed, <span class="message-box__red">Red</span> = Hit, <span class="message-box__green">Green</span> = Last attacked cell</span>`, MESSAGE_TYPE.HTML);
     const playerTwoGridContainer = document.querySelector('.middle-right__grid-container');
     playerTwoGridContainer.classList.remove('middle-right__grid-container--disabled');
     playerTwoGridContainer.addEventListener('click', playerOnePlay);
   }
   
   if (currentPlayer === 2) {
-    messages(`${playerNameInstance.getPlayerOne().name} Attacked, Now Computers's Turn.`);
+    messages(`${playerNameInstance.getPlayerOne().name} Attacked, Now Computers's Turn.`, MESSAGE_TYPE.TEXT);
     const res = PlayerTwoUtils.attack();
     console.log(res.previousHit);
     setTimeout(() => {            
