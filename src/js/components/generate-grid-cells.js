@@ -7,7 +7,7 @@ const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
 window.p2c = playerTwoGameBoardInstance;
 function generateGridCells() {
 
-  function playerTwoCells(className, isHighligtShips) {
+  function playerTwoCells(className, isHighligtShips, lastHit) {
     const playerTwoBoard = playerTwoGameBoardInstance.getBoard();
     const cells = [];
   
@@ -27,12 +27,16 @@ function generateGridCells() {
           if(cell === SHIP.BATTLESHIP.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
           if(cell === SHIP.CRUISER.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
           if(cell === SHIP.SUBMARINE.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-          if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
-
-          
+          if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed'); 
         }
+
         if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-miss');
         if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-hit');
+
+        if(lastHit && (rowIndex === lastHit[0]) && (colIndex === lastHit[1])) {
+          if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'cell__last-attack--miss');
+          if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'cell__last-attack--hit');
+        }
         cells.push(divCell);
       });
     });
@@ -40,7 +44,7 @@ function generateGridCells() {
     return cells;
   }
 
-  function playerOneCells(className) {
+  function playerOneCells(className, lastHit) {
     const playerOneBoard = playerOneGameBoardInstance.getBoard();
     const cells = [];
   
@@ -61,6 +65,12 @@ function generateGridCells() {
         if(cell === SHIP.PATROLBOAT.ABBREVIATION) domManager.setClass(divCell, 'grid-container__grid-cell--placed');
         if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'neon-miss');
         if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'neon-hit');
+
+        if(lastHit && (rowIndex === lastHit[0]) && (colIndex === lastHit[1])) {
+          if(cell === CELL_STATES.MISS) domManager.setClass(divCell, 'cell__last-attack--miss');
+          if(cell === CELL_STATES.HIT) domManager.setClass(divCell, 'cell__last-attack--hit');
+        }
+        
         cells.push(divCell);
       });
     });
