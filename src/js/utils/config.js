@@ -77,6 +77,11 @@ const MESSAGES = {
   ALREADY_PLACED: 'Ships are already placed'
 };
 
+const MESSAGE_TYPE = {
+  TEXT: 'text',
+  HTML: 'html'
+};
+
 
 
 export {
@@ -86,5 +91,6 @@ export {
   ERROR_MESSAGES,
   AXIS,
   MESSAGES,
+  MESSAGE_TYPE,
   DIRECTIONS
 }
