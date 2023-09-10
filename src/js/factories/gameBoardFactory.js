@@ -1,7 +1,6 @@
 import { GRID, CELL_STATES, SHIP, ERROR_MESSAGES, AXIS, MESSAGES } from '../utils/config.js';
 import { getShipFactoryInstance } from '../utils/instanceRegistry.js';
 function gameBoard() {
-debugger;
   // Make sure ships only placed once
   let placedShips = new Set(); 
   const shipInstance = getShipFactoryInstance();
