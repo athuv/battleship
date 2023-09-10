@@ -6,6 +6,8 @@ import {createMiddleSection} from './js/components/section-middle.js';
 import createBottomSection from './js/components/section-bottom.js';
 import { createPopup, popupEventListeners } from './js/components/popup-player-ships-placement.js';
 
+console.log(process.env.NODE_ENV);
+
 function component() {
   const bodyElement = document.body;
   domManager.appendChildElements(
