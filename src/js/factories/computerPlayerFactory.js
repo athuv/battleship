@@ -161,11 +161,8 @@ function computerPlayer() {
     let attackResult = getPlayerOneGameBoardInstance().receiveAttack(possibleHit[0], possibleHit[1]);
     removePossibleAttackByValue(possibleHit);
 
-    console.log(`attack result - ${attackResult}`);
-    console.log(`direction - ${direction}`);
     if(!direction){
       if(attackResult === CELL_STATES.HIT) direction = isHitDirection(possibleHit, firstHit);
-      console.log(`dir def - ${direction}`);
     }
     previousHit = possibleHit;
 
