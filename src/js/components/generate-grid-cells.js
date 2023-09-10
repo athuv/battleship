@@ -4,7 +4,7 @@ import { getPlayerOneGameBoardInstance, getPlayerTwoGameBoardInstance } from '..
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerTwoGameBoardInstance = getPlayerTwoGameBoardInstance();
-window.p2c = playerTwoGameBoardInstance;
+
 function generateGridCells() {
 
   function playerTwoCells(className, isHighligtShips, lastHit) {

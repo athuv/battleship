@@ -6,7 +6,6 @@ import initPlay from '../factories/initPlayFactory.js';
 
 const playerOneGameBoardInstance = getPlayerOneGameBoardInstance();
 const playerOneInstnace = getPlayerFactoryInstance();
-window.p = playerOneInstnace;
 
 function createPopupBody() {
   const section = domManager.createSectionElement(['popup__body']);
