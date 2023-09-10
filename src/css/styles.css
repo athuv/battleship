@@ -81,6 +81,11 @@ body {
   margin-top: 0.5rem;
 }
 
+.middle-right__grid-container--disabled {
+  opacity: 0.3;
+  cursor: not-allowed !important;
+}
+
 .grid-container__grid-left-cell {
   /* position: relative; */
   background-color: var(--secondary-accent-color); 
