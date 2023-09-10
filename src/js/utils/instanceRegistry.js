@@ -3,7 +3,6 @@ import computerPlayer from "../factories/computerPlayerFactory.js";
 import player from "../factories/playerFactory.js";
 import shipFactory from "../factories/shipFactory.js";
 
-const shipFactoryInstance = shipFactory();
 const gameBoardFactoryInstance = gameBoard();
 const computerPlayerFactoryInstance = computerPlayer();
 const playerFactoryInstance = player();
@@ -34,11 +33,11 @@ function getPlayerFactoryInstance() {
 }
 
 function getShipFactoryInstance() {
-  return shipFactoryInstance;
+  return shipFactory();
 }
 
 export {
-  getGameBoardFactoryInstance,
+  // getGameBoardFactoryInstance,
   getComputerPlayerFactoryInstance,
   getPlayerFactoryInstance, 
   getPlayerOneGameBoardInstance,
