@@ -49,6 +49,28 @@ body {
   align-items: center;
 }
 
+.section-bottom__message-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.5rem;
+  gap: 0.2rem;
+}
+
+.message-box__orange {
+  color: var(--neon-glow-orange);
+}
+
+.message-box__red {
+  color: var(--neon-glow-red);
+}
+
+.message-box__green {
+  color: var(--color-green);
+  background: var(--secondary-accent-color);
+  padding: 0.2rem;
+}
+
 .middle-left {
   flex: 1;
   border-right: 2px solid;
