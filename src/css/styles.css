@@ -4,6 +4,7 @@
   --font-color: #03045E;
   --neon-glow-orange: rgba(237, 106, 74, 1)  ;
   --neon-glow-red: rgba(193, 35, 88, 1);
+  --color-green: #66BAA8;
   --font-color-transparent: rgba(3, 4, 94, 0.5);
   --primary-accent-color: #00B4D8;
   --secondary-accent-color: #0077B6;
@@ -97,6 +98,14 @@ body {
   background-color: var(--secondary-accent-color);
   border: 1px solid #000;
   cursor: pointer;
+}
+
+.cell__last-attack--miss {
+  background: linear-gradient(45deg, var(--neon-glow-orange) 50%, var(--color-green) 50%) !important;
+}
+
+.cell__last-attack--hit {
+  background: linear-gradient(45deg, var(--neon-glow-red) 50%, var(--color-green) 50%) !important;
 }
 
 p {
